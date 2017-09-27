@@ -1,0 +1,433 @@
+# -*- coding:utf-8 -*-
+
+"""
+    学习numpy库的用法
+"""
+
+# numpy 是一个科学计算python库，绝大部分深度学习python库都用了这个
+
+# --------基本类型 array
+import numpy as np
+
+a=[1,2,3,4]
+b=np.array(a)
+print(type(b))
+
+c=b.shape                       # 返回矩阵的长度，一维矩阵返回[行的个数, ] ，二维矩阵返回[行数,  列数]
+print(c)
+d=np.argmax(b)                  # 返回的是最大数的索引, argmax有一个参数axis,默认是0, 数组会平铺
+print(d)
+
+# 二维
+a = np.array([[1, 5, 5, 2],
+              [9, 6, 2, 8],
+              [3, 7, 9, 1]])
+print(np.argmax(a, axis=0))     # (1,2,2,1) ，是取每列的最大值。0 代表列
+print(np.argmax(a, axis=1))     # (1,0,2) ，是取每行的最大值。 1代表行
+
+# 三维        
+a = np.array([
+              [
+                  [1, 5, 5, 2],
+                  [9, -6, 2, 8],
+                  [-3, 7, -9, 1]
+              ],
+
+              [
+                  [-1, 5, -5, 2],
+                  [9, 6, 2, 8],
+                  [3, 7, 9, 1]
+              ]
+            ])
+            
+
+print(np.argmax(a, axis=0))    # 三维 2 * 3 * 4  ,把哪个维度拿掉并在这个维度上作比较
+# [[0 0 0 0]
+# [0 1 0 0]
+# [1 0 1 0]]
+
+print(np.argmax(a, axis=1))
+# [[1 2 0 1]
+# [1 2 2 1]]
+
+print(np.argmax(a, axis=2))
+# [[1 0 1]
+# [1 0 2]]
+ 
+print(np.max(b))                # 4
+print(np.mean(b))               # 2.5
+
+
+c = [[1, 2], [3, 4]]
+d = np.array(c)
+print(np.shape(d))              # (2, 2)
+print(np.size(d))               # 4
+print(np.max(d, axis=0))        # 0维度上，也就是最后一个维度上的最大值 array[3,4]
+print(np.max(d, axis=1))        #　(2,4)
+print(np.mean(d, axis=0))       # 按列求平均
+print(d.flatten())              # 将d展开为一维
+print(np.ravel(c))              # 将列表按一维展开
+
+# 3x3的浮点型2维数组，并且初始化所有元素值为1
+e=np.ones((3,3), dtype=np.float)
+
+# 创建一个一维数组，元素值是把3重复4次，array([3, 3, 3, 3])
+f=np.repeat(3,4)
+
+# 2x2x3的无符号8位整型3维数组，并且初始化所有元素值为0
+g=np.zeros((2,2,3), dtype=np.uint8)
+print(g.shape)
+h=g.astype(np.float)            # 换一种类型
+
+l=np.arange(10)
+m=np.linspace(0,6,5)            # 等差数列，0到6之间5个取值，array([ 0., 1.5, 3., 4.5, 6.])
+
+p=np.array(
+    [[1,2,3,4],
+    [5,6,7,8]]
+)
+np.save('p.npy', p)
+q=np.load('p.npy')
+print(q)
+
+
+
+a=np.arange(24).reshape((2,3,4))
+print(a)
+'''
+array([[[ 0,  1,  2,  3],
+        [ 4,  5,  6,  7],
+        [ 8,  9, 10, 11]],
+
+       [[12, 13, 14, 15],
+        [16, 17, 18, 19],
+        [20, 21, 22, 23]]])
+'''
+
+b=a[1][1][1]                            #17
+
+c= a[:,2,:]                             # 用:表示当前维度上所有下标
+print(c)
+
+d = a[:, :, 1]
+print(d)                                #   [[ 1  5  9], [13 17 21]]  取所有第2列上的数据
+
+e = a[..., 1]                           # 用...表示没有明确指出的维度, 等同于d
+print(e)
+
+f=a[:, 1:, 1:-1]                        # 第二行到最后一行，第2至倒数第二列
+
+g=np.split(np.arange(9), 3)             # 平均分成三份
+print(g)
+
+h=np.split(np.arange(9), [2, 6])       # 分段切分，第一段array[0,1] 第二段array[2,3,4,5] 第三段array[6,7,8]
+print(h)
+
+'''
+    vstack是指沿着纵轴拼接两个array，vertical
+    hstack是指沿着横轴拼接两个array，horizontal
+    更广义的拼接用concatenate实现，horizontal后的两句依次等效于vstack和hstack
+    stack不是拼接而是在输入array的基础上增加一个新的维度
+'''
+m=np.vstack((10,11))
+print(m)
+p=np.hstack((10,11))
+print(p)
+#q=np.concatenate((10,11))
+#print(q)
+#r=np.concatenate((10,11), axis=1)
+#print(r)
+s=np.stack((10,11))
+print(s)
+
+s= np.arange(15).reshape((3,5))
+t=s.T                               # 转置
+print(t)
+
+# ------------------基础运算
+a=np.abs(-1)
+b=np.sin(np.pi/2)
+c=np.arctanh(0.462118)
+d=np.exp(3)
+f=np.power(2,3)                         # 2^3
+g=np.dot([1,2],[3,4])
+h=np.sqrt(25)
+l=np.sum([1,2,3,4])
+m=np.mean([4,5,6,7])
+p=np.std([1,2,3,2,1,3,2,0])
+print(p)
+
+# 数组的位运算
+a = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+b = np.array([
+    [1, 2, 3],
+    [1, 2, 3]
+])
+
+print(a+b)
+print(a-b)
+print(a*b)      # 按对应位相乘
+print(a**b)
+print(a/b)      
+
+
+# -------------- 线性代数相关 linalg
+a=np.array([3,4])
+b=np.linalg.norm(a)         # 默认是二阶范数 ， 距离
+print(b)
+
+b = np.array([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+])
+c = np.array([1, 0, 1])
+print(c)
+# 向量之间的乘法
+print(np.dot(c,b))          # c在前面，以c为准，去dot b
+print(np.dot(b,c))
+np.dot(c, b.T)
+
+np.trace(b)                 # 矩阵的迹，对角线上的元素之和
+np.linalg.det(b)            # 矩阵的行列式
+np.linalg.matrix_rank(b)    # 矩阵的秩
+
+d=np.array([
+    [2,1],
+    [1,2]
+])
+
+'''
+    对正定矩阵求本征值和本征向量
+    本征值为u，array([ 3.,  1.])
+    本征向量构成的二维array为v，
+    array([[ 0.70710678, -0.70710678],
+           [ 0.70710678,  0.70710678]])
+    是沿着45°方向
+    eig()是一般情况的本征值分解，对于更常见的对称实数矩阵，
+    eigh()更快且更稳定，不过输出的值的顺序和eig()是相反的
+'''
+
+u,v=np.linalg.eig(d)
+print(u)
+print(v)
+
+# Cholesky分解并重建             d=A*A.T
+l=np.linalg.cholesky(d)
+print(l)
+
+'''
+    array([[ 2.,  1.],
+           [ 1.,  2.]])
+'''
+np.dot(l, l.T)
+
+
+
+e = np.array([
+    [1, 2],
+    [3, 4]
+])
+# 对不镇定矩阵，进行SVD分解并重建
+U, s, V = np.linalg.svd(e)      # s为特征值
+print(s)
+S = np.array([
+    [s[0], 0],
+    [0, s[1]]
+])
+
+t=np.dot(U, np.dot(S, V))
+print(t)
+
+
+#------------------------随机模块 random
+import numpy.random as random
+
+# 设置随机种子，
+random.seed(42)
+
+# 产生一个1x3，[0,1)之间的浮点型随机数
+random.rand(1,3)
+
+# 产生一个[0,1)之间的浮点型随机数
+random.random()
+
+# 下边4个没有区别，都是按照指定大小产生[0,1)之间的浮点型随机数array
+random.random((3, 3))
+random.sample((3, 3))
+random.random_sample((3, 3))
+random.ranf((3, 3))
+
+# 产生10个[1,6)之间的浮点型随机数
+print(5*random.random(10) + 1)
+print(random.uniform(1, 6, 10))
+
+# 产生10个[1,6]之间的整型随机数
+print(random.randint(1,6,10))
+
+# 产生2x5的标准正态分布样本
+random.normal(size=(5,2))
+
+# 产生5个，n=5，p=0.5的二项分布样本
+random.binomial(n=5, p=0.5, size=5)
+
+a=np.arange(10)
+
+# 从a中有回放的随机采样7个
+print(random.choice(a, 7))          # [6 6 7 4 2 7 5]
+
+# 从a中无回放的随机采样7个
+print(random.choice(a, 7, replace=False))  # [6 1 3 8 7 5 4]
+
+# 对a进行乱序并返回一个新的array
+b=random.permutation(a)
+
+# 对a进行in-place乱序
+random.shuffle(a)
+print(a)
+
+# 生成一个长度为9的随机bytes序列并作为str返回
+random.bytes(9)
+
+
+# ----------------------- 可视化包Matplotlib
+"""
+Matplotlib是Python中最常用的可视化工具之一，可以非常方便地创建海量类型地2D图表和一些基本的3D图表
+"""
+# 2D图表
+
+# Matplotlib中最基础的模块是pyplot
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+# 通过rcParams设置全局横纵轴字体大小
+mpl.rcParams['xtick.labelsize'] = 24
+mpl.rcParams['ytick.labelsize'] = 24
+
+np.random.seed(42)
+
+# x轴的采样点
+x=np.linspace(0,5,100)
+
+# 通过下面曲线加上噪声生成数据，所以拟合模型就用y了……
+y = 2*np.sin(x) + 0.3*x**2
+y_data=y+np.random.normal(scale=0.3,size=100)
+
+# figure()指定图表名称
+plt.figure('data')
+
+# '.'标明画散点图，每个散点的形状是个圆
+plt.plot(x,y_data,'.')
+
+# 画模型的图，plot函数默认画连线图
+plt.figure('model')
+plt.plot(x,y)
+
+# 两个图画一起
+plt.figure('data & model')
+
+# 通过'k'指定线的颜色，lw指定线的宽度
+# 第三个参数除了颜色也可以指定线形，比如'r--'表示红色虚线
+# 更多属性可以参考官网：http://matplotlib.org/api/pyplot_api.htmlsd
+plt.plot(x,y,'k',lw=3)
+
+# scatter可以更容易地生成散点图
+plt.scatter(x,y_data)
+
+# 将当前figure的图保存到文件result.png
+plt.savefig('result.png')
+
+# 一定要加上这句才能让画好的图显示在屏幕上
+plt.show()
+
+# 矩状图
+mpl.rcParams['axes.titlesize']=20
+mpl.rcParams['xtick.labelsize'] = 16
+mpl.rcParams['ytick.labelsize'] = 16
+mpl.rcParams['axes.labelsize'] = 16
+mpl.rcParams['xtick.major.size'] = 0
+mpl.rcParams['ytick.major.size'] = 0
+
+# 包含了狗，猫和猎豹的最高奔跑速度，还有对应的可视化颜色
+
+    
+
+
+
+# 补充 random
+
+# rand 
+# 平均分布[0,1)
+# Create an array of the given shape and populate it with random samples from a uniform distribution over [0, 1).
+np.random.rand(3,2)
+
+'''
+array([[ 0.14022471,  0.96360618],  #random
+       [ 0.37601032,  0.25528411],  #random
+       [ 0.49313049,  0.94909878]]) #random
+'''
+
+# randn
+# Gaussian 分布
+np.random.randn()
+# 2.1923875335537315 #random
+
+# sigma * np.random.randn(...) + u
+2.5 * np.random.randn(2, 4) + 3
+'''
+array([[-4.49401501,  4.00950034, -1.81814867,  7.29718677],  #random
+       [ 0.39924804,  4.68456316,  4.99394529,  4.84057254]]) #random
+'''
+
+# randint
+# numpy.random.randint(low, high=None, size=None, dtype='l') 
+# low 默认是0， 开区间[low, high)
+np.random.randint(2, size=10)
+'''
+array([1, 0, 0, 0, 1, 1, 0, 0, 1, 0])
+'''
+
+np.random.randint(1, size=10)
+array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+np.random.randint(5, size=(2, 4))
+'''
+array([[4, 0, 2, 1],
+       [3, 2, 2, 0]])
+'''
+
+# random_integers 
+# 闭区间[low, high]      
+np.random.random_integers(5)
+'''
+4
+'''
+
+# random_sample    
+# 随机的浮点数，在半开区间 [0.0, 1.0)
+
+np.random.random_sample()
+'''
+0.47108547995356098
+'''
+
+# random([size]) 跟random_sample完全一致
+
+# ranf([size])   跟random_sample完全一致
+
+# sample([size]) 跟random_sample完全一致
+
+
+
+
+
+
+
+
+
+
+
