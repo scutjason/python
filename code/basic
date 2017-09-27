@@ -1,1 +1,761 @@
 关于python的基本语法
+
+# -*- coding:utf-8 -*-
+
+"""
+    深度学习之python
+"""
+
+# python 基本数据类型
+
+a=1         # 整型
+b=1.2       # 浮点型
+c=True      # bool型
+d="False"   # 字符串
+e=None      # NoneType
+
+type(a)     # 用type函数来获取变量类型
+type(b)
+type(c)
+type(d)
+type(e)
+
+a=1
+b=a  # b是a的引用
+c=1
+
+id(a) # 获取a的内存地址
+
+
+a=2
+b=2.3
+c=3
+a+b     # 4.3
+c-a     # 1
+a/b     # 2/2.3=0.8695652173913044
+a/c     # 2/3 = 0.6667
+c/a     # c/a = 1.5
+print('c/a %f' % (c/a))
+c//a    # c//a = 1  丢掉小数部分
+print('c//a %f' % (c//a))
+print("a/c %f" % (a/c))
+a**c    # a^c = 2*2*2 = 8
+a+=1    # a自增
+d='hello'
+d+=' world' # 字符串拼接 +
+print("d+  %s" % (d))
+
+# Python提供了__future__模块，把下一个新版本的特性导入到当前版本
+# 比如在2.x中要用3.x版本的除法库division
+# from __future__ import division
+
+# bool 和 逻辑运算
+a=True
+b=False
+a and b     # False
+a or b      # True
+not a       # False
+
+# 判断是否相等
+a == b
+a != b 
+a is b
+
+# 导入库
+import math # 直接导入
+
+from math import cos, pi # 从math中导入cos函数和pi变量
+print(cos(pi))
+
+import math as m  # 给math库起个别名
+
+from math import * # 导入math库中的所有东西
+
+# ----------- 容器
+a=[1,2,3,4]  # list
+b=[1]
+c=[1]
+d=b
+e=[1, 'hello world!', c, 2.3, False]
+f=list("abcd")      # list 函数将字符串变成字符的列表
+print(f)
+g=[0]*3 + [1]*4 + [2]*2
+print(g)
+
+# list 的增删改查
+a.pop()         # 把a的最后一个数4从列表中移除 [1,2,3]
+a.append(5)     # a的末尾插入5  [1,2,3,5] 
+a[2]            # 取a的下标为2的值，即3
+a+=[4,3,2]      # 拼接 [1, 2, 3, 5, 4, 3, 2]
+a.insert(1,0)   # 在1的位置插入0 [1,0,2,3,5,4,3,2]
+a.remove(2)     # 移除列表中某个值的第一个匹配项，[1,0,3,5,4,3,2]
+a.reverse()     # 倒序，[2,3,4,5,3,0,1]
+a[3]=9          # 指定下标处赋值 [2,3,4,9,3,0,1]
+b=a[2:5]        # b为a从第2个到第5个前的子序列  [4,9,3]
+c=a[2:-2]       # -2表示下标倒着数时，第二个位置。 -1表示最后一个元素
+print(c)
+d=a[2:]         # 从第二个位置开始一直到结尾 [4, 9, 3, 0, 1]
+e=a[:5]         # 从开始到第5个位置前的子序列 [2, 3, 4, 9, 3]  
+# 诀窍就是冒号后面减前面后的数来表示子序列个数
+f=a[:]          # 相当于完整拷贝一份a
+a[2:-2]=[1,2,3] # 赋值也可以按照一段来，[2, 3, 1, 2, 3, 0, 1]
+g=a[3::-1]      # 3::-1 表示取列表a的index[0,3]的位置上子序列a1，-1呢则表示对a1进行倒序输出，所以g是[2,1,3,2]。
+                # 如果是-2，则需要相隔1个位置的子序列
+print(g)
+a.sort()        # 列表内排序
+print(a)
+
+
+b=len(a)        # 获取a的元素个数
+c=max(a)        # 获取a中的最大元素
+print(c)            
+d=min(a)        # 获取a中的最小元素
+e=a.count(2)    # a中元素2出现的次数
+print(e)
+f=a.index(3)    # 找出元素3在a中出现的第一个位置, 下标
+print(f)        
+
+
+# 列表通常是排序的，我们对列表进行排序
+import random
+a=list(range(10))         # 生成一个0-9的序列
+print(a)
+random.shuffle(a)   # shuffle函数对可遍历且可变的结构进行打乱排序
+print(a)
+b=sorted(a)
+print(b)
+c=sorted(a,reverse=True)
+print(c)
+
+# tuple 跟list类似，最大的区别是tuple不可变。另外申明只有一个元素的tuple，必须要加,
+# 如果多个元素之间用，隔开，会默认为是tuple
+a=(1,2)
+b=tuple(['3',4])    # list转换成tuple
+c=[5,]              # 只含一个元素5
+d=(6)               # 不是tuple
+e=3,4,5             # 默认是tuple (3,4,5)
+f=()                # 定义一个空的tuple
+
+# set 集合，集合中的元素不会有相同，可以用与两个数组去重
+A=set([1,2,3,4])
+B={3,4,5,6}
+C=set([1,1,2,2,2,3,3,3,3])
+print(C)
+print(A|B)
+print(A&B)
+print(A-B)
+print(B-A)
+print(A^B)           # 求对称差集，相当于(A-B)|(B-A)，set([1, 2, 5, 6])
+
+
+# 字典 dict  key-value形式，类似map，键无重复，一个键不能对应多个value，但是多个key可以对应一个value
+a={'Tom':8, 'Jerry':7}
+print(a['Tom'])
+b=dict(Tom=8,Jerry=7)
+print(b['Tom'])
+if 'Jerry' in a:
+    print(a['Jerry'])
+print(a.get('Spike'))                           # get方法能获取指定的value
+a['Spike']=10
+a['Tyke']=3
+a.update({'Tuffy':2,'Mammy Two Shoes':42})
+print(a.values())                               # dict_values([8, 2, 3, 7, 10, 42])
+print(a.pop('Mammy Two Shoes'))                 # 移除'Mammy Two Shoes'的键值对，并返回42
+print(a.keys())
+
+
+# 字典排序
+b=a.items() # items()可以把字典中的键值对转化成一个列表，其中每个元素是一个tuple，tuple的第一个元素是键，第二个元素是值。
+print(b)
+from operator import itemgetter
+c=sorted(a.items(),key=itemgetter(1))
+print(c)
+e=sorted(a)
+print(e)                                        # 只对键排序 ['Jerry', 'Spike', 'Tom', 'Tuffy', 'Tyke']
+
+del a['Tyke']                                   # 用del 删除某个元素
+print(a)
+c=a.clear()                                     # 删除整个dict， None
+print(c)                                
+
+#-----------分支与循环
+# for
+a = ['This', 'is', 'a', 'list', '!']
+b = ['This', 'is', 'a', 'tuple', '!']
+c = {'This': 'is', 'an': 'unordered', 'dict': '!'}
+
+for x in a:
+    print(x)                                # 依次输出a
+
+for x in b:
+    print(x)                                # 依次输出b
+
+for key in c:
+    print(key)                              # 键的遍历  'This'  'an'  'dict'
+    
+for i in range(10):
+    print(i)                                # 输出0-9
+
+# 打印下标
+names = ["Rick", "Daryl", "Glenn"]
+for i,name in enumerate(names):            # 不建议用 range(len(names)) 来遍历
+    print(i,name)
+
+wusuowei = ["I", "don't", "give", "a", "shit"]
+hexie=True
+
+for x in wusuowei:
+    if x == 'f**k':
+        print("what the f**k!")
+        hexie = False
+        break
+if hexie:
+    print("Harmonious society!")
+
+    
+# 另一种小众的做法是，for和else一起,如果for内的if没有触发的话，就会执行else
+for x in wusuowei:
+    if x == 'f**k':
+        print("what the f**k!")
+        hexie = False
+        break
+else:
+    print("Harmonious society!")
+
+# if elif else 
+pets =['dog', 'cat', 'droid', 'fly']
+for pet in pets:
+    if pet == 'dog':
+        food = 'steak'
+    elif pet == 'cat':
+        food = 'milk'
+    elif pet == 'droid':
+        food = 'oil'
+    elif pet == 'fly':
+        food = 'sh*t'
+    else:
+        pass                # 空语句，啥都不做
+    print(food)
+
+
+pets = ['dog', 'cat', 'droid', 'fly']
+food_for_pet = {
+    'dog': 'steak', 
+    'cat': 'milk', 
+    'droid': 'oil', 
+    'fly': 'sh*t'
+}
+
+for pet in pets:
+    food = food_for_pet[pet] if pet in food_for_pet else None
+    print(food)
+x=0
+if -1 < x < 1:
+    print('The absolute value of x is < 1')
+x='gitar'
+if x in ['piano', 'violin', 'drum']:    # 相较于 if x == 'piano' or x == 'violin' or x =='drum':
+    print("It's an instrument!")
+
+# Python中的对象都会关联一个真值，所以在if表达式中判断是否为False或者是否为空的时候，是无需写出明确的表达式的：
+a = True
+if a:		# 判断是否为真，相较于 a is True
+    print('a is True')
+
+if 'sky':	# 判断是否空字符串，相较于 len('sky') > 0
+    print('birds')
+	
+if '':		# 判断是否空字符串，同上
+    print('Nothing!')
+
+if {}:		# 判断是否空的容器(字典)，相较于len({}) > 0
+    print('Nothing!')
+
+
+# ----------------- 函数和生成器和类
+def say_hello():
+    print('hello')
+
+def greetings(x='Good morning!'):
+    print(x)
+
+say_hello()
+greetings()
+greetings("what's up")
+a=greetings()
+
+def traverse_args(*args):
+    for arg in args:
+        print(arg)
+
+traverse_args(1,2,3)
+traverse_args('A','B','C','D')
+
+
+def traverse_kargs(**kwargs):
+    for k, v in kwargs.items():                 # items() 取kvargs中的k，v
+        print(k, v)
+
+traverse_kargs(x=3,y=4,z=5)
+traverse_kargs(fighter1='Fedor', fighter2='Randleman')
+
+
+moves=['up','left','down','right']
+
+def move_up(x):
+    x[1] +=1
+
+def move_left(x):
+    x[1] -=1
+
+def move_down(x):
+    x[0] -=1
+
+def move_right(x):
+    x[0] +=1
+
+actions={
+    'up':move_up,
+    'down':move_down,
+    'left':move_left,
+    'right':move_right
+}
+
+coord = [0,0]
+
+for move in moves:
+    actions[move](coord)        # 函数作为值取到后，直接加一括号就能使了
+    print(coord)
+    
+
+# lambda表达式在Python中是一种匿名函数，lambda关键字后面跟输入参数，然后冒号后面是返回值（的表达式）
+some_ops = lambda x, y: x + y + x*y + x**y  
+print(some_ops(2, 3))  # 2 + 3 + 2*3 + 2^3 = 19
+
+# 生成器
+"""
+ 生成器是迭代器的一种，形式上看和函数很像，只是把return换成了yield，
+ 在每次调用的时候，都会执行到yield并返回值，同时将当前状态保存，
+ 等待下次执行到yield再继续：
+"""
+def countdown(x):
+    while x>= 0:
+        yield x             # 跟scala的yield 一样呀
+        x-=1
+
+for i in countdown(10):
+    print(i)
+   
+def fibonacci(n):
+    a=0
+    b=1
+    while b < n:
+        yield b             # 返回b，并且保存b
+        a,b=b,a+b           # a = b, b +=a
+        
+for x in fibonacci(100):
+    print(x)
+    
+# 生成器和所有可迭代结构一样，可以通过next()函数返回下一个值，如果迭代结束了则抛出StopIteration异常：
+a = fibonacci(3)
+print(next(a))  # 1
+print(next(a))  # 1
+print(next(a))  # 2
+#print(next(a))  # 抛出StopIteration异常
+
+
+# 类class
+# 惯例是用单下划线开头的表示protected，用双下划线开头的表示private：
+
+class A:
+    """ This is Calss A """
+    def __init__(self,x,y,name):        # 类的初始化使用的是__init__(self,)，所有成员变量都是self的，所以以self.开头
+        self.x=x
+        self.y=y
+        self._name=name
+    
+    def introduce(self):
+        print(self._name)
+        
+    def greeting(self):
+        print("What's Up!")
+        
+    def __12norm(self):
+        return self.x**2 + self.y**2
+        
+    def cal_12norm(self):
+        return self.__12norm()
+        
+a=A(11,11,'Lenordo')
+print(a.__doc__)            # class A  描述类的介绍
+a.introduce()
+a.greeting()
+print(a._name)
+print(a.cal_12norm())
+print(a._A__12norm())       # 而双下划线开头的变量则触发了Python中一种叫做name mangling的机制，其实就是名字变了下，仍然可以通过前边加上“_类名”的方式访问
+#print(a.__12norm())        # 报错: 'A' object has no attribute '__l2norm'
+
+# 继承
+class B(A):
+    """ Class B inheritenced from A"""
+    
+    def greeting(self):                # 重写了greeting方法
+        print("How's going")
+        
+b=B(12,12,'Flaubert')
+b.introduce()
+b.greeting()
+print(b._name)
+print(b._A__12norm())
+    
+
+# --------------- map reduce filter
+
+# map可以用于对可遍历结构的每个元素执行同样的操作，批量操作：map之后是迭代器
+a=map(lambda x:x**2, [1,2,3,4])
+for i in a:
+    print(i)
+map(lambda x,y:x+y, [1,2,3],[5,6,7])
+
+# reduce则是对可遍历结构的元素按顺序进行两个输入参数的操作，并且每次的结果保存作为下次操作的第一个输入参数，
+# 还没有遍历的元素作为第二个输入参数。这样的结果就是把一串可遍历的值，减少（reduce）成一个对象
+from functools import reduce 
+b=reduce(lambda x,y:x+y, [1,2,3,4])       # ((1+2)+3)+4=10
+print(b)
+c=filter(lambda x:x%2, [1,2,3,4,5])       # 筛选奇数，[1, 3, 5]
+for i in c:
+    print(i)
+
+
+# 列表生成 
+a = [x**2 for x in [1,2,3,4]]      # 快速列表生成器  
+print(a)
+
+b=[sum(x) for x in zip([1,2,3], [4,5,6])]    #[5,7,9]  zip()不会自动帮助判断两个列表是否长度一样，所以最终的结果会以短的列表为准
+print(b)
+
+c=[x for x in [1,2,3,4,5,6,7,8] if x%2]    # [1, 3, 5, 7] 
+print(c)
+
+# -------------------------- 字符串
+a = 'Life is short, you need Python'
+a.lower()
+a.upper()
+print(a.count('i'))
+a.find('e')
+a.rfind('need')
+print(a.replace('you', 'i'))        # a 不变
+print(a)
+tokens=a.split(' ')            # 默认是空格
+print(tokens)               # ['Life', 'is', 'short,', 'you', 'need', 'Python']
+b=' '.join(tokens)          # 用指定分隔符按顺序把字符串列表组合成新字符串
+print(b)
+c=a+'\n'                    
+print(c.rstrip('\n'))           # 右侧去除换行符, 
+[x for x in a]            
+print('Python' in a)
+
+
+# fromat格式化
+a='I am like a {} chasing {}.'
+# 按顺序格式化字符串，'I’m like a dog chasing cars.'
+b=a.format('dog', 'cars')
+print(b)
+
+# 在大括号中指定参数所在位置
+b = 'I prefer {1} {0} to {2} {0}'
+c=b.format('food', 'Chinese', 'American')
+print(c)
+
+# >代表右对齐，>前是要填充的字符，依次输出：
+# 000001
+# 000019
+# 000256
+for i in [1, 19, 256]:
+    print('The index is {:0>6d}'.format(i))
+
+# <代表左对齐，依次输出：
+# *---------
+# ****------
+# *******---
+for i in ['*', '***', '*****']:
+    progress_bar = '{:-<10}'.format(i)
+    print(progress_bar)
+    
+
+for x in [0.0001, 1e17, 3e-18]:
+    print('{:.6f}'.format(x))
+    print('{:.1e}'.format(x))
+    print('{:g}'.format(x))
+    
+template = '{name} is {age} years old.'
+c=template.format(name='Tom',age=8)
+print(c)
+d=template.format(age=7, name='Jerry')
+print(d)
+
+# --------------文件和pickle
+
+# --------------异常
+# --------------异常
+a = ['Why', 'so', 'serious', '?']
+
+for x in a:
+	print(x)
+
+filelist = ['name_age.txt', 'age_name.txt']
+
+for filepath in filelist:			# filelist中是文件路径的列表
+	try:
+		with open(filepath, 'r'):
+			# 执行数据处理相关工作
+			# ...
+			print('{} is processed!'.format(filepath))
+	except IOError:
+		print('{} with IOError!'.format(filepath))
+
+
+# --------------多进程
+from multiprocessing import Process
+import os
+
+def run_pro(name):
+    print("Run child process {}, {}".format(name, os.getpid()))
+    
+if __name__ == '__main__':
+    print('Parent process {}'.format(os.getpid()))
+    p=Process(target=run_pro,args=('test',))            # Process接口创建进程
+    print("Child process will start")
+    p.start()
+    p.join()
+    print("Child process end.")
+    
+# 线程池
+from multiprocessing import Pool
+import time,random
+
+def long_time_task(name):
+    print('Parent task {}'.format(os.getpid()))
+    start=time.time()
+    time.sleep(random.random()*3)
+    end = time.time()
+    print('Task %s runs %0.2f seconds.' % (name, (end - start)))
+    
+if __name__ =='__main__':
+    print('Parent process %s.' % os.getpid())
+    p=Pool(4)
+    for i in range(5):
+        p.apply_async(long_time_task, args=(i,))            # apply_async(func,args) 从进程池中取出一个进程执行func,args为func的参数
+    print('Waiting for all subprocesses done...')
+    p.close()
+    p.join()
+    print('All subprocesses done.')
+    
+# 进程间通信 queue、pipes
+
+from multiprocessing import Queue
+
+# 写数据进程的代码
+def write(q):
+    print("Process to write : %s" % os.getpid())
+    for value in ['A','B','C']:
+        print('Put %s to queue...' % value)
+        q.put(value)
+        time.sleep(random.random())
+        
+# 读数据进程的代码
+def read(q):
+    print("Process to read : %s" % os.getpid())
+    while True:
+        value=q.get(True)
+        print('Get %s from queue.' % value)
+
+if __name__ == '__main__':
+    # 父进程创建Queue，并传给各个子进程：
+    q=Queue()
+    pw=Process(target=write, args=(q,))
+    pr=Process(target=read, args=(q,))
+    # 启动子进程
+    pw.start()
+    pr.start()
+    pw.join()
+    pr.terminate()  # pr进程里是死循环，无法等待其结束，只能强行终止:
+    
+# 多线程
+import threading
+
+def loop():
+    print('thread %s is running...' % threading.current_thread().name)
+    n=0
+    while n < 5:
+        n=n+1
+        print('thread %s >>> %s' % (threading.current_thread().name, n))
+        time.sleep(1)
+    print('thread %s ended.' % threading.current_thread().name)
+if __name__=='__main__':
+    print('thread %s is running...' % threading.current_thread().name)
+    t=threading.Thread(target=loop, name='LoopThread')
+    t.start()
+    t.join()
+    print('thread %s ended.' % threading.current_thread().name)
+    
+# 多线程共享的lock
+balance=0
+def change_it(n):
+    # 先存后取，结果应该是0
+    global balance
+    balance+=n
+    balance-=n
+def run_thread(n):
+    for i in range(1000000):
+        change_it(n)
+
+if __name__=='__main__':        
+    t1=threading.Thread(target=run_thread,args=(5,))
+    t2=threading.Thread(target=run_thread,args=(8,))
+    t1.start()
+    t2.start()
+    t1.join()
+    t2.join()
+    print(balance)      # 理论上来说balance应该为0， 但是由于没有加锁原因导致不为0
+# 线程锁 lock
+balance=0
+lock=threading.Lock()
+
+def run_thrad_lock(n):
+    for i in range(100000):
+        lock.acquire()      # 多个线程同时执行lock.acquire()时，只有一个线程能成功地获取锁
+        try:
+            change_it(n)
+        finally:
+            lock.release()
+            
+if __name__=='__main__':        
+    t1=threading.Thread(target=run_thrad_lock,args=(5,))
+    t2=threading.Thread(target=run_thrad_lock,args=(8,))
+    t1.start()
+    t2.start()
+    t1.join()
+    t2.join()
+    print(balance)      # 加锁之后，balance=0
+    
+# 由于GIL锁的存在，导致python无法在多线程模式下，跑满多个核，而只能用到一个核。虽然多线程模式无法做到真正利用多核
+# 我们可以用多进程模式
+
+# ----------------分布式多进程
+'''     
+            task_master.py
+            
+# task_worker.py  master在10.118.202.164上
+# master端 10.118.202.164
+if __name__ == '__main__':
+    import random, time
+    from multiprocessing import Queue
+    from multiprocessing.managers import BaseManager
+
+    # 发送任务的队列
+    task_queue=Queue()
+
+    # 接受任务的队列
+    result_queue=Queue()
+
+    # 从BaseManager继承
+    class QueueManager(BaseManager):
+        pass
+
+    # 把两个Queue都注册到网络上, callable参数关联了Queue对象:
+    QueueManager.register("get_task_queue", callable=lambda : task_queue)
+    QueueManager.register("get_result_queue", callable=lambda : result_queue)
+
+    # 绑定端口5000,设置验证码'abc'
+    manage= QueueManager(address=('',5000), authkey=b'abc')
+
+    # 启动Queue
+    manage.start()
+
+    # 通过网络访问Queue对象
+    task=manage.get_task_queue()
+    result=manage.get_result_queue()
+
+    # 放几个任务进去
+    for i in range(10):
+        n = random.randint(1, 10000)
+        print('put task %d...' % n)
+        task.put(n)
+
+    # 从result队列中读取结果
+    print('Try get results...')
+    for i in range(10):
+        r=result.get(timeout=10)
+        print('Result: %s' % r)
+
+    # 关闭
+    manage.shutdown()
+    print('master exit.')
+'''
+    
+'''
+            task_work.py
+
+if __name__ == '__main__':
+    # -*- coding:UTF-8 -*-
+    import sys
+    import random, time
+    from multiprocessing import Queue
+    from multiprocessing.managers import BaseManager
+
+    # 创建类似的QueueManager:
+    class QueueManager(BaseManager):
+        pass
+
+    # 由于这个QueueManager只从网络上获取Queue，所以注册时只提供名字:
+    QueueManager.register('get_task_queue')
+    QueueManager.register('get_result_queue')
+
+    #连接服务器
+    server_addr = '127.0.0.1'
+    print('Connect to server %s...' % server_addr)
+
+    # 端口和验证码注意保持与task_master.py设置的完全一致:
+    m = QueueManager(address=(server_addr, 5000), authkey=b'abc')
+
+    # 从网络连接:
+    m.connect()
+
+    # 获取Queue的对象:
+    task = m.get_task_queue()
+    result = m.get_result_queue()
+
+    # 从task队列取任务,并把结果写入result队列:
+    for i in range(10):
+        n = task.get(timeout=1)
+        print('run task %d * %d...' % (n, n))
+        r = '%d * %d = %d' % (n, n, n*n)
+        time.sleep(1)
+        result.put(r)
+    # 处理结束:
+    print('worker exit.')
+'''
+
+# --------------os模块
+# os.system()就能方便实现很多功能
+import os, shutil
+
+filepath0 = 'data/bat/IMG_000001.jpg'
+filepath1 = 'data/bat/IMG_000000.jpg'
+
+# 修改文件名
+os.system('mv {} {}'.format(filepath0, filepath1))
+#os.rename(filepath0, filepath1)
+
+
+# 创建文件夹
+dirname = 'data_samples'
+os.system('mkdir -p {}'.format(dirname))
+#if not os.path.exists(dirname):
+#    os.mkdir(dirname)
+
+# 拷贝文件
+os.system('cp {} {}'.format(filepath1, dirname))
+#shutil.copy(filepath1, dirname)
+
+
