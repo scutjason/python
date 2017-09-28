@@ -1,0 +1,36 @@
+Implement atoi to convert a string to an integer.
+
+
+class Solution(object):
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+        s=str.lstrip()
+        r=''
+        flag=0
+        for i in range(len(s)):
+            if s[i]=='-' and flag == 0:
+                flag=-1
+            elif s[i] =='+' and flag == 0:
+                flag=1
+            elif s[i].isdigit():
+                r+=s[i]
+            else:
+                break
+        if r == '':
+            return 0
+        if flag == 0:
+            flag =1
+        result= flag*int(r)
+        MAX_INT = 2147483647
+        MIN_INT = -2147483648
+        if result > MAX_INT > 0:
+            return MAX_INT
+        elif result < MIN_INT < 0:
+            return MIN_INT
+        else:
+            return result
+
+总结：这题到不难，主要是知道str.strip()语句，然后判断32位区间的最大值。
