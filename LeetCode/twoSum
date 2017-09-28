@@ -34,3 +34,5 @@ class Solution(object):
                 return [buff[nums[i]], i]
             else:
                 buff[target - nums[i]] = i
+
+总结：很好的运用了集合{}不重复的特点，对于找索引位置也是map思想
