@@ -34,3 +34,7 @@ class Solution(object):
 
 
 总结经验：对于寻找某个元素在列表或者字符串的哪个具体的位置时，可以直接用hash map {}
+         另外对于这种求max，肯定要想着动态更新的。
+         if max_len < i - start:
+            max_len = i - start
+         应该是标准解法
