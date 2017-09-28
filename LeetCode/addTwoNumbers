@@ -41,3 +41,5 @@ class Solution(object):
             ptr = ptr.next
                 
         return head.next
+
+总结：比较难想到的是，额外加一个head，对于链表问题，记得加头
