@@ -19,3 +19,6 @@ class Solution(object):
         
         r = int(str(s*x)[::-1])
         return s*r * (r < 2**31)
+
+
+对于列表、字符串、数字，如果涉及到翻转时，立马想到用list[::-1]
