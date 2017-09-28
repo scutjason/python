@@ -35,4 +35,4 @@ class Solution(object):
             else:
                 buff[target - nums[i]] = i
 
-总结：很好的运用了集合{}不重复的特点，对于找索引位置也是map思想，这个解法巧妙在于，key是target-nums[i]，而value是i，完美
+总结：对于找索引位置也是map思想，这个解法巧妙在于，key是target-nums[i]，而value是i，完美
