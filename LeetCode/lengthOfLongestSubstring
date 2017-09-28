@@ -31,3 +31,6 @@ class Solution(object):
             if max_len < i - start:
                 max_len = i - start
         return max_len
+
+
+总结经验：对于寻找某个元素在列表或者字符串的哪个具体的位置时，可以直接用hash map {}
