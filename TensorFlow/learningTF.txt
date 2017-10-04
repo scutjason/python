@@ -361,7 +361,8 @@ tf.softmax_cross_entropy_with_logits(logits, labels, name=None)
     首先看输入logits，它的shape是[batch_size, num_classes] ，一般来讲，就是神经网络最后一层的输入z
     另外一个输入是labels，它的shape也是[batch_size, num_classes]，就是我们神经网络期望的输出
 
-优化器    
+
+优化器    
 tf.train.AdamOptimizer(learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-08, use_locking=False, name=’Adam’)
     admin 自适应矩估计
     引入了二次方梯度校正。相比于基础SGD算法，1.不容易陷于局部优点。2.速度更快
@@ -430,9 +431,52 @@ print(a[:,2])
 , 表示那一列上的值
 
 
+tf.slim库
+slim库是tensorflow中的一个高层封装，它将原来很多tf中复杂的函数进一步封装，省去了很多重复的参数，以及平时不会考虑到的参数。
+一个函数就能将卷积层全局搞定，而以前你还要调用conv2d、relu、maxpool等
+
+slim.conv2d
+
+net = slim.conv2d(inputs, 256, [3, 3], stride=1, scope='conv1_1')
+前三个参数依次为网络的输入，输出的通道，卷积核大小，stride是做卷积时的步长。除此之外，还有几个经常被用到的参数：
+padding : 补零的方式，例如'SAME'
+activation_fn : 激活函数，默认是nn.relu
+normalizer_fn : 正则化函数，默认为None，这里可以设置为batch normalization，函数用slim.batch_norm
+normalizer_params : slim.batch_norm中的参数，以字典形式表示
+weights_initializer : 权重的初始化器，initializers.xavier_initializer()
+weights_regularizer : 权重的正则化器，一般不怎么用到
+biases_initializer : 如果之前有batch norm，那么这个及下面一个就不用管了
+biases_regularizer : 
+trainable : 参数是否可训练，默认为True
+
+slim.max_pool2d
+net = slim.max_pool2d(net, [2, 2], scope='pool1')  步长默认是1
+
+slim.fully_connected
+slim.fully_connected(x, 128, scope='fc1')
+前两个参数分别为网络输入、输出的神经元数量
+
+slim.arg_scope
+slim.arg_scope可以定义一些函数的默认参数值，在scope内，我们重复用到这些函数时可以不用把所有参数都写一遍
+
+with slim.arg_scope([slim.conv2d, slim.fully_connected], 
+                    trainable=True,
+                    activation_fn=tf.nn.relu, 
+                    weights_initializer=tf.truncated_normal_initializer(stddev=0.01), 
+                    weights_regularizer=slim.l2_regularizer(0.0001)):
+    with slim.arg_scope([slim.conv2d], 
+                        kernel_size=[3, 3], 
+                        padding='SAME',
+                        normalizer_fn=slim.batch_norm):
+        net = slim.conv2d(net, 64, scope='conv1'))
+        net = slim.conv2d(net, 128, scope='conv2'))
+        net = slim.conv2d(net, 256, [5, 5], scope='conv3'))
+
+一个slim.arg_scope内可以用list来同时定义多个函数的默认参数（前提是这些函数都有这些参数），另外，slim.arg_scope也允许相互嵌套。在其中调用的函数，可以不用重复写一些参数（例如kernel_size=[3, 3]），但也允许覆盖（例如最后一行，卷积核大小为[5，5]）
 
 
-
+slim.batch_norm
+归一化BN算法
 --------------------
 
 softmax：是sigmod激活函数的推广，sigmoid只能用于二分类，而softmax能用于多分类，它会输出每个类别的概率，归一化处理
