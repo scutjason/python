@@ -477,6 +477,17 @@ with slim.arg_scope([slim.conv2d, slim.fully_connected],
 
 slim.batch_norm
 归一化BN算法
+
+
+
+tf.concat(concat_dim, values, name='concat')
+concat_dim：0表示行，1表示列
+
+t1 = [[1,2,3], [4,5,6]]
+t2 = [[7,8,9], [10,11,12]]
+tf.concat(0, [t1, t2]) ==> [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
+tf.concat(1, [t1, t2]) ==> [[1,2,3,7,8, 9], [4,5,6,10,11, 12]]
+
 --------------------
 
 softmax：是sigmod激活函数的推广，sigmoid只能用于二分类，而softmax能用于多分类，它会输出每个类别的概率，归一化处理
