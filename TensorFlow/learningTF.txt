@@ -1,0 +1,531 @@
+
+先说基本的
+
+1、tensor：张量，它并不保存真实数据，而是数据的计算过程。它有三个属性 { 名字、维度、类型}。比如： W : Tensor("Const:0", shape=(2, 3), dtype=int32)
+
+    在tensorflow中节点的含义表示计算过程。我们可以用print打印所有节点，得到的是该节点的输出。
+
+    如何创建tensor
+    tf.zeros([row_dim, col_dim])
+    tf.ones([row_dim, col_dim])
+    tf.fill([row_dim, col_dim], 42)
+    tf.constant([1,2,3])
+    tf.random_uniform([row_dim, col_dim], minval=0, maxval=1)  0-1均匀分布
+    tf.random_normal([row_dim, col_dim], mean=0.0, stddev=1.0) 正态分布
+    
+    也可以将np.array转成tensor
+    x_data = np.array([[1., 2., 3.], [4., 5., 6.]])
+    tf.convert_to_tensor(x_data, dtype=tf.float32)
+    
+    tf.reduce_sum  将tensor对象中的所有值相加
+
+2、有了这些概念之后，我们怎么用tensorflow编程呢？
+    首先我们先构建一个计算图，计算图有许多计算节点组成，此时并没有真正执行。要想真正执行这些计算，就要建立一个session会话，在会话中执行。
+
+    y = a+b
+    with tf.Session as sess:
+        sess.run(y)
+        
+    执行run之后得到的就是真正的结果了，而非tensor，完美！ 
+    Session.run方法有2个参数，分别是fetches和feed_dict。参数名有时候可以省略，比如sess.run(fetches=d)和前面的sess.run(d)是一样的。
+    传递给fetches参数的既可以是Tensor也可以是Operation。如果fetches是一个元素就返回一个值；若fetches是一个list，则返回list的值，
+    若fetches是一个字典类型，则返回和fetches同keys的字典。
+    
+    feed_dict参数的作用是替换图中的某个tensor的值。
+    除此之外，feed_dict还可以用来设置graph的输入值，这就引入了placeholder的概念。
+    在运行程序的时候我们用feed_dict的方式把具体的值提供给placeholder，达到了给graph提供input的目的。
+
+    我们可以用Variable对象的assign方法Variable.assign()来给Variable一个新的值。Variable.assign()返回的是一个操作（Op）， 必须在Session中运行才会起作用：
+    my_val = tf.Variable(1)
+    my_new_val = tf.assign(my_val * 2)
+    init = tf.global_variables_initializer()
+    sess = tf.Session()
+    sess.run(init)
+    sess.run(my_new_val)
+    >>  2
+    每个Session对Variable的管理是独立的，所以同一个Variable在不同的Session中可以有不同的值：
+    如果需要将变量重新初始化，那直接调用sess.run(init)即可
+    
+3、graph。tf再加载之后会默认创建一个graph，不过我们也可以自己创建graph
+    a = tf.add(1,2)
+    sess = tf.Session()
+    sess.run(a)
+    >>  3
+    g = tf.graph()
+    with g.as_default():
+        a = tf.add(3,4)
+    sess = tf.Session(graph = g)
+    sess.run(a)
+    >>  7
+    也可以创建多个graph用sess运行不同的graph
+    
+    对于大量的节点的graph，用name_scope来组织，并用TensorBoard来可视化
+    with tf.name_scope("Scope_A"):
+        a = tf.add(1, 2, name = "A_add")
+        b = tf.multiply(a, 3, name="A_mul")
+        
+    with tf.name_scope("Scope_B"):
+        c = tf.add(4, 5, name = "B_add")
+        d = tf.multiply(c, 6, name = "B_mul")
+        
+    e = tf.add(b, d, name = "output")
+    
+    writer = tf.summary.FileWriter('./name_scope_1', graph= tf.get_default_graph())
+    writer.close()
+
+4、神经网络基础
+    
+
+好了，知道了tensorflow的基本编程思想之后，接下来我们来构建一个传统的神经网络、只包含一个隐藏层
+
+1、定义神经网络的节点，计算图
+2、定义损失函数
+3、在会话中，将数据输入神经网络，反复优化神经网络，知道得到最优解
+4、将测试集输入训练好的神经网络进行验证
+
+首先定义超参，包括学习率learning_rate、训练遍历总次数epoch、一次输入数据的个数
+然后定义神经元
+
+x是输入层， tf.placeholder是占位符，用于传递真实的训练样本，先占着这个坑，到时候传实际的样本数据进来。
+那它和tf.Variable有啥不同呢，主要是开始不必指定初始值，在运行时，通过tf.Session.run()函数的feed_dict参数指定。
+而tf.Variable就是表示一些训练变量，必须指定初始值
+tf.placeholder的第一个参数是数据类型，第二个参数是shape。[None, 784]中的None可以理解为batch_size，而784则表示每一个输入数据都有784个特征值
+每一个特征值对应一个输入神经元。
+
+x = tf.placeholder('float', [None, 784])
+
+y = tf.placeholder('float', [Node, 10])
+
+layer1 = 16  隐藏层神经元个数
+layer2 = 32
+
+
+神经网络参数w和b
+[784, layer1]中 784表示该层神经元的输入神经元个数，layer1 表示该层神经元中输出层的神经元的个数
+tf.random_normal 是随机的正太函数
+w = {
+        'h1': tf.Variable(tf.random_normal([784, layer1])),
+        'h2': tf.Variable(tf.random_normal([layer1, layer2])),
+        'out': tf.Variable(tf.random_normal([layer2, 10]))
+}
+
+b = {
+        'h1': tf.Variable(tf.random_normal([layer1])),
+        'h2': tf.Variable(tf.random_normal([layer2])),
+        'out': tf.Variable(tf.random_normal([5]))
+}
+
+最后定义神经网络函数
+def network(x_input, weights, biases):
+    net1 = tf.nn.relu(tf.matmul(x_input, weights['h1']) + biases['h1'])
+    net2 = tf.nn.relu(tf.matmul(net1, weights['h2']) + biases['h2'])
+    output = tf.matmul(net2, weights['out']) + biases['out']
+    
+    return output
+    
+tf.nn.relu 是非线性激活函数，类似还有tf.sigmoid  tf.tanh
+
+tf.matmul 是矩阵相乘
+output就是最后的输出
+
+
+下面开始创建损失函数
+神经元的输出层到输出数据之间需要经过一个softmax层的处理，这样做是为了将输出的数据进行归一化，压缩输出数据到0-1之间，并且保持所有和等于1
+这样做的目的是可以用交叉熵来定义损失函数
+
+pred = network(x,w,b)
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(pred, y)) 
+optimizer = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(cost)
+
+cost是损失函数，用了reduce_mean求平均损失。
+tf.train.AdamOptimizer是选择的优化器，作用是最小化cost
+
+接下来就是init变量
+最后创建会话，执行cnn训练
+
+
+关于神经网络的损失函数和参数优化
+
+损失函数：
+    神经网络解决的两大类实际问题，分类和回归
+    分类就是讲未知数据归纳到类别中去，比如数字识别
+    回归就是拟合一个具体的数据，比如房价与房屋面积、单价的关系
+
+    分类问题：
+        一般用交叉熵作为损失函数，交叉熵刻画的是两个概率分布之间的距离
+            H(y, pred) = -∑x y*log(pred)
+
+    由于全连接的输出层并非一个真正的概率分布，需要人为进行处理。所以就有了softmax层，将网络的输出全部压缩在0-1之间，和为1。
+    最后对softmax的输出进行交叉熵损失计算。
+    pred = tf.matmul(x,w) +b
+    tf.nn.softmax_cross_entropy_with_logits(pred,y)
+
+    回归问题：
+        因为是对具体数值的预测，输出值是实数，所以用均方差来作为损失函数
+            m = ∑n (pred - y)^2 / n
+
+    loss = tf.reduce_mean(tf.square(pred -y))
+
+网络优化：
+    学习率：每次梯度下降的步长，一般设置小于0.1，
+            在tensorflow中用exponential_decay指数衰减法来更新学习率，通常要慢慢减小学习率
+            global_step = tf.Variable(0)
+            
+            100表示每100次变化一次学习率、0.98表示上次学习率*0.98
+            staircase= True表示成阶梯函数下降，False时表示连续衰减
+            更新公式 learning_rate = 0.1 *0.98 ^ (global_step / 100) 只要global_step不为0就能一直更新learning_rate
+            learning_rate = tf.train.exponential_decay(0.1, global_step, 100, 0.98, staircase = True)
+            
+            optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(cost, global_step = global_step)
+            
+    过拟合：
+        过拟合指的是模型在训练集中的表现非常好，甚至可以准确的分类每一个训练数据，然而这种模型在预测未知数据（测试集）的时候表现并不好，
+        模型过于复杂，即所谓的泛化能力不行。相反的即欠拟合，模型过于简单
+        为了防止过拟合，有两种方法。一个是dropout，一个是正则化
+        dropout：
+            原理是在每次训练的时候，通过随机概率让一些神经元不工作
+            
+            一般用于全连接，keep_prob为保留概率，比如 keep_prob  =0.4，表示随机档掉60%的神经元
+            keep_prob建议用placeholder
+            tf.nn.dropout(x, keep_prob)
+            
+            一般用于RNN
+            tf.nn.rnn_cell.DropoutWrapper(rnn_cell, input_keep_prob, output_keep_prob)
+            
+        正则化：
+            在损失函数中加入评价模型复杂度的指标，loss =  j(Ɵ) + ƛR(w), j(Ɵ)为损失函数，它是所有参数的函数，
+            R(w)就是评价模型复杂度的指标，一般只是权重w的函数，ƛ表示复杂损失在总损失中的比例。
+            通常有L1和L2正则化，L1和L2可以看做是先验分布
+            L1：tf.contrib.layers.l1_regularizer(lambda)(w)  具有稀疏性，使得很多的θ都为0
+            L2：tf.contrib.layers.l2_regularizer(lambda)(w)  使得θ参数都比较小
+            
+            正则化中我们将保留所有的特征变量，但是会减小特征变量的数量级。
+            f1(x) = θ0 + θ1x + θ2x^2
+            在前面的介绍中，我们看到了如果用一个二次函数f1(x)来拟合这些数据，那么它给了我们一个对数据很好的拟合。
+            f2(x) = θ0 + θ1x + θ2x^2 + θ3x^3 +θ4x^4
+            然而，如果我们用一个更高次的多项式f2(x)去拟合，最终我们可能会得到一个曲线，它能很好地拟合训练集，但却并不是一个好的结果，
+            因为它过度拟合了数据，因此，一般性并不是很好。让我们考虑下面的假设，我们想要加上惩罚项，从而使参数 θ3 和 θ4 足够的小。
+            所以正则化一般是降低高次系数的影响，让θ3和θ4参数尽量很小。具体怎么做呢?
+            在loss函数中，加入两个很大的值 1000*θ3^2 + 1000*θ4^2
+            因为要让loss最小，所以在优化的时候会尽可能然θ3和θ4最小才能满足优化条件，这样θ3和θ4就基本很小了
+            
+            有个问题，如果说参数有上百个，那么我们怎么知道要去具体优化哪一项呢？
+            所以我们要做的事情，就是把减小我们的代价函数（例子中是线性回归的代价函数）所有的参数值。
+            在所有的参数前面加入一个λ， λ称做正则化参数。λ越大表示惩罚越狠，使得参数都为0了
+            loss = (λ/2n)*∑n θ^2
+            
+
+            最简单的解释就是加了先验。在数据少的时候，先验知识可以防止过拟合。
+            举2个例子：
+            1. 抛硬币，推断正面朝上的概率。如果只能抛5次，很可能5次全正面朝上，这样你就得出错误的结论：正面朝上的概率是1--------过拟合！
+                如果你在模型里加正面朝上概率是0.5的先验，结果就不会那么离谱。这其实就是正则。
+            2. 最小二乘回归问题：加2范数正则等价于加了高斯分布的先验，加1范数正则相当于加拉普拉斯分布先验。
+            
+            正则化项本质上是一种先验信息，整个最优化问题从贝叶斯观点来看是一种贝叶斯最大后验估计，其中正则化项对应后验估计中的先验信息，
+            损失函数对应后验估计中的似然函数，两者的乘积即对应贝叶斯最大后验估计的形式，如果你将这个贝叶斯最大后验估计的形式取对数，即进行极大似然估计，
+            你就会发现问题立马变成了损失函数+正则化项的最优化问题形式。
+            
+            参数估计：
+                先说什么是参数估计，因为我们希望用较少的参数去描述数据的总体分布。而可以这样做的前提是我们对总体分布的形式是知晓的，只需要估计其中参数的值；
+                否则我们要借助非参数的方法了。
+                参数估计的方法有多种，这里我们分析三种基于概率的方法，分别是最大似然估计（Maximum Likelihood）、贝叶斯估计（Bayes）和最大后验估计（Maximum a posteriori）。
+                    最大似然估计，在样本数据不大的情况下，会失效，比如人的平均身高，如果取得样本都是小孩，那么会不准确。所以我们需要知道有小孩这个先验条件
+                    贝叶斯估计，我们可以把我们关于的先验知识以及在观察数据结合起来。f(θ)*g(θ), g(θ)是先验条件概率
+                    http://cache.baiducontent.com/c?m=9d78d513d99d12ed06bec5291a17a7716820971236c0a61668a3985cd424054e1d20a5f930236319ce95223a54b8492bbbb1602e200357ebcc8e950b87ecce6274db7a6b2b40d34417ce4aef8d1d749f778d0cbee94abce4b12f94acd6d2dd5252c1&p=8f6a8916d9c106bc17bd9b7d0d1c96&newp=8a6dc54ad5c34be517be9b7c54508b231610db2151d3da01298ffe0cc4241a1a1a3aecbf21261603d5c37b6c03aa4358ecf435763c0634f1f689df08d2ecce7e65c7&user=baidu&fm=sc&query=laplace%CF%C8%D1%E9&qid=a7a3731300006ba2&p1=6
+            
+        滑动平均模型：
+            提高模型的准确性。
+            tf.train.ExponentialMovingAverage用来实现该功能
+            该函数会为每一个变量生成一个影子变量（shadow_variable），影子变量的初始值即为变量的初始值，随后影子变量由该方程进行改变：
+            shadow_variable= decay * shadow_variable + (1 - decay) * variable  
+            decay为衰减率，接近1
+            
+
+tensorflow的变量管理
+    1、用字典来管理变量，比如权值weight和偏差biase
+        weight = {
+            "layer1": tf.Variable(random_normal([n_input, n_hidden1]), dtype=tf.float32),
+            "layer2": tf.Variable(random_normal([n_hidden1, n_hidden2]), dtype=tf.float32),
+            "out": tf.Variable(random_normal([n_hidden2, n_output]),dtype=float32)
+        }
+        
+        biase = {
+            "layer1": tf.Variable(tf.constant(0.1, shape=[n_hidden1])),
+            "layer2": tf.Variable(tf.constant(0.1, shape=[n_hidden2])),
+            "out": tf.Variable(tf.constant(0.1, shape=[n_output]))
+        }
+        
+    2、变量共享
+        tf.get_variable()
+        tf.variable_scope()
+        
+        先说tf.get_variable()
+            用来创建变量或者获取已经创建的变量，当用于创建变量时，用法跟tf.Variable()有些差别
+                v1 = tf.Variable(tf.random_normal([2,3]), name="v1") 名字"v1"选填
+                v2 = tf.get_variable("v1", shape=[2,3], initializer=tf.random_normal_initializer()) 名字"v1"必填、并且用initializer初始化
+                
+            用来获取变量时，用tf.variable_scope()来创建上下文，
+                tf.variable_scope()函数中，当参数reuse= True时，指明在该管理器中，tf.get_variable()用于获取已经创建的变量；
+                当reuse = False时，指明在该管理器中，tf.get_variable()用于创建变量
+                with tf.variable_scope("foo", reuse = False):
+                    v1 = tf.get_variable("v1", shape=[2,3], initializer=random_normal_initializer())
+                with tf.variable_scope("foo", reuse=True):
+                    v2 = tf.get_variable("v1", shape=[2,3])
+                    print(v1==v2) 
+                >> true
+                说明v2 等于v1
+                
+        现在我们来重新定义全连接网络
+        
+        def networt(x_input, reuse = False):
+            with tf.variable_scope("layer1", resue=reuse):
+                weights = tf.get_variable("weights", shape=[n_input, n_hidden1], initializer=tf.random_normal_initializer())
+                biases = tf.get_variable("biases", shape=[n_hidden1], initializer=tf.constant_initializer(1.0))
+                layer1 = tf.nn.relu(tf.multiply(x_input, weights) + biases)
+                
+            with tf.variable_scope("layer2", reuse=reuse):
+                weights = tf.get_variable("weights", shape=[n_hidden1, n_hidden2], initializer = tf.random_normal_initializer())
+                biases  = tf.get_variable("biases",  shape=[n_hidden2], initializer =tf.constant_initializer(1.0))
+                layer2 = tf.nn.relu(tf.multiply(layer1, weiths) + biases)
+
+            with tf.variable_scope("out", reuse=reuse):
+                weights = tf.get_variable("weights", shape=[n_hidden2, n_output], initializer=tf.random_normal_initializer())
+                biases  = tf.get_variable("biases",  shape=[n_output], initializer=tf.constant_initializer(1.0))
+                output  = tf.nn.relu(tf.multiply(layer1, weights) + biases)
+                
+            return output
+                
+        这个共享变量有啥好处呢？当我们训练好了参数w和b后，令reuse=True，就可以直接用w和b啦，是不是很酷
+        
+        
+######### 重要的API详解
+                          
+卷积
+    tensorflow.nn.con2d(input, filter, strides, padding, use_cudnn_on_gpu=None, data_format=None, name=None)
+        input 指需要做卷积的输入图像，它要求是一个Tensor，具有[batch, in_height, in_width, in_channels]这样的shape，具体含义是[训练时一个batch的图片数量, 
+                图片高度, 图片宽度, 图像通道数]，注意这是一个4维的Tensor，要求类型为float32和float64其中之一
+        filter 相当于CNN中的卷积核，它要求是一个Tensor，具有[filter_height, filter_width, in_channels, out_channels]这样的shape，
+                具体含义是[卷积核的高度，卷积核的宽度，图像通道数，卷积核个数]，要求类型与参数input相同，有一个地方需要注意，第三维in_channels，
+                就是参数input的第四维
+        strides 卷积时在图像每一维的步长，这是一个一维的向量，长度4。不过 strides[0]=strides[3]=1.
+        padding 按哪种方式卷积，包括'valid' 和 'same'两种模式
+        use_cudnn_on_gpu 是否使用GPU加速
+        data_format 输入输出数据格式
+        name 操作名
+        
+        返回值 feature map， shape仍然是[batch, height, width, channels]这种形式
+
+池化
+    tf.nn.max_pool(value, ksize, strides, padding, name=None)
+        value：需要池化的输入，一般池化层接在卷积层后面，所以输入通常是feature map，依然是[batch, height, width, channels]这样的shape
+        ksize：池化窗口的大小，取一个四维向量，一般是[1, height, width, 1]，因为我们不想在batch和channels上做池化，所以这两个维度设为了1
+        strides：和卷积类似，窗口在每一个维度上滑动的步长，一般也是[1, stride,stride, 1]，注意这个步长，按这个移动的
+        参数padding：和卷积类似，可以取'VALID' 或者'SAME'
+        
+        返回一个Tensor，类型不变，shape仍然是[batch, height, width, channels]这种形式
+
+局部归一化
+    局部响应归一化原理是仿造生物学上活跃的神经元对相邻神经元的抑制现象（侧抑制）。k=2,n=5,aloha=1*e-4,beta=0.75。
+        b^i(x,y) = a^i(x,y)/(k + alpha * ∑ (a^j(x,y))^2)^beta
+    tf.nn.lrn(input,depth_radius=None,bias=None,alpha=None,beta=None,name=None)
+        input：[batch_size, height, width, depth] 输入一般是relu的输出
+        depth_radius： n/2 表示抑制求和半径， ∑的方向是d，所以是通道做动作？
+        bias ：k 
+        alpha：
+        beta：
+        
+        sqr_sum[a, b, c, d] = sum(input[a, b, c, d - depth_radius : d + depth_radius + 1] ** 2)
+        返回值 计算公式 output = input / (bias +alpha * sqr_sum) ** beta
+        
+ReLu激活函数
+    能够使得模型更加稀疏，防止梯度消失。
+
+drop_outtf  
+    tf.nn.dropout(x, keep_prob, noise_shape=None, seed=None,name=None) 
+        x：指输入
+        keep_prob: 设置神经元被选中的概率,在初始化时keep_prob是一个占位符, 
+
+tf.shape(a)
+    返回tensor、list、array, 取决于a
+    
+a.get_shape()
+    a只能是tensor且返回tuple， 可以用.as_list() 转成list
+
+tf.reduce_mean(input_tensor, reduction_indices=None, keep_dims=False, name=None)
+    对入参求平均，
+    reduction_indices：在哪一维上求平均
+    0：表示对每一列求平均  0竖
+    1：表示对每一行求平均  1横
+    
+tf.softmax_cross_entropy_with_logits(logits, labels, name=None)
+    首先看输入logits，它的shape是[batch_size, num_classes] ，一般来讲，就是神经网络最后一层的输入z
+    另外一个输入是labels，它的shape也是[batch_size, num_classes]，就是我们神经网络期望的输出
+
+优化器    
+tf.train.AdamOptimizer(learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-08, use_locking=False, name=’Adam’)
+    admin 自适应矩估计
+    引入了二次方梯度校正。相比于基础SGD算法，1.不容易陷于局部优点。2.速度更快
+    
+截断的正太分布取值：如果x的取值在区间（μ-2σ，μ+2σ）之外则重新进行选择
+tf.truncated_normal(shape, mean, stddev)
+    shape表示生成张量的维度，
+    mean是均值，
+    stddev是标准差。
+    
+两个命名空间
+tf.name_scope
+    tf.name_scope() 返回的是 一个string
+    
+tf.variable_scope
+    tf.variable_scope() 返回的是一个 op对象
+    
+
+
+    variable_scope和name_scope都会给op的name加上前缀, op包括 tf.Variable tf.constant tf.zeros tf.random_uniform tf.add  tf.sub tf.matmul这些
+    name_scope对 get_variable()创建的变量的名字不会有任何影响,而创建的op会被加上前缀.
+    variable_scope中定义的variable 的name会加上前缀
+    tf.name_scope(None) 有清除name scope的作用
+
+    tf.get_variable_scope() 返回的只是 variable_scope,所以以后我们在使用tf.get_variable_scope().reuse_variables() 时可以无视name_scope
+
+    简单来看 
+    1. 使用tf.Variable()的时候，tf.name_scope()和tf.variable_scope() 都会给 Variable 和 op 的 name属性加上前缀。 
+    2. 使用tf.get_variable()的时候，tf.name_scope()就不会给 tf.get_variable()创建出来的Variable加前缀。
+
+reshape
+tf.reshape(tensor, shape, name=None)  
+    shape为一个列表形式，特殊的一点是列表中可以存在-1。-1代表的含义是不用我们自己指定这一维的大小
+
+训练模型的持久化
+    通过模型持久化（保存为CKPT格式）来暂存我们训练过程中的临时数据，避免训练过程中突然中断导致前功尽弃
+        Saver.save
+    通过模型持久化（保存为PB格式）只保存前向传播中需要的变量并将变量的值固定下来，这个时候只需用户提供一个输入，我们就可以通过模型得到一个输出给用户
+        get_default_graph().as_graph_def() 得到当前图的计算节点信息
+        graph_util.convert_variables_to_constants 将相关节点的values固定
+        tf.gfile.GFile 进行模型持久化
+
+tf.train.Saver.save()方法保存模型
+tf.train.Saver.save(sess, save_path, global_step=None, latest_filename=None, meta_graph_suffix='meta', write_meta_graph=True, write_state=True)
+    sess: 用于保存变量操作的会话。
+    save_path: String类型，用于指定训练结果的保存路径。
+    global_step: 如果提供的话，这个数字会添加到save_path后面，用于构建checkpoint文件。这个参数有助于我们区分不同训练阶段的结果。
+
+tf.train.Saver.restore(sess, save_path)
+    sess: 用于加载变量操作的会话。
+    save_path: 同保存模型是用到的的save_path参数。
+
+
+a=np.array(range(9)).reshape((3,3))
+print(a)
+>>
+    [[0 1 2]
+     [3 4 5]
+     [6 7 8]]
+     
+print(a[:,2])
+>>
+    [2 5 8]
+
+: 表示取哪一行到哪一行
+, 表示那一列上的值
+
+
+
+
+
+--------------------
+
+softmax：是sigmod激活函数的推广，sigmoid只能用于二分类，而softmax能用于多分类，它会输出每个类别的概率，归一化处理
+            y(z) = e^z / ∑ e^zi   ∑y(z) = 1. y能输出c个类别，也就是y的输入c维的，每一维都是N个特征。这就是softmax的独特魅力
+            
+            http://www.cnblogs.com/yinheyi/p/6131262.html
+            http://blog.csdn.net/hejunqing14/article/details/48980321  softmax的推导
+
+信息熵：
+    用f(x) = log(1/p)来衡量信息的不确定性大小，如果信息出现的概率越大，那么它的不确定性就越小。
+    如果信息可能有N个输出，那我们用所有不确定性的平均值E(f(x))来表示信息熵，E = ∑ pi * log(1/pi)
+    
+交叉熵：如果采用错误的分布q来表示真实分布，H(p, q) = ∑ p(pi) * log(1/qi)， H(p, q)就表示交叉熵
+
+
+
+有几个疑问？
+1、为什么要用softmax作为输出层的归一函数？
+    首先softmax是多分类问题的模型函数。
+    要想知道这个，得搞清楚softmax是什么，要搞清楚softmax得有两个基础知识，指数分布族和广义线性模型。
+    先回答一个问题，为什么LR要用sigmoid函数作为f(x)建模，而不用其他的呢?
+        二项式的最大熵解等价于二项式指数形式(sigmoid)的最大似然，多项式分布的最大熵等价于多项式分布指数形式(softmax)的最大似然
+        因此为什么用sigmoid函数，那是因为指数簇分布最大熵的特性的必然性。假设分布求解最大熵，引入拉格朗日函数，求偏导数等于0，直接求出就是sigmoid函数形式。
+        http://blog.csdn.net/buring_/article/details/43342341
+        
+        广义线性模型通过假设一个概率分布，得到不同的模型.模型用h(x)表示
+        http://blog.csdn.net/dream_angel_z/article/details/46288167
+        http://www.cnblogs.com/yinheyi/p/6131262.html
+        像logistic函数
+        
+        9.18
+        充分统计量：可以理解为用样本所求得的参数能够充分表现整个分布中的未知参数
+            对于一些来自未知分布的样本，对于参数估计而言，就是可以把这个未知的分布表示成p(theta)的形式，样本的分布就可以表示为p(x|theta); 
+            而充分统计量，假设为q，它的存在意义是当我们比较难以推导出theta时，如果由这些样本能比较容易的决定q，那此时p(x|theta)就等同于p(x|q)，
+            我们就由比较容易得出的充分统计量来代替了原来难以直接推导出的参数q。
+            
+        是这样，由指数分布族得到充分统计量T(y), 然后在广义线性模型中根据三个假设得到假设模型为hθ(x) = E(T(y)|x;θ)，这个就是求分布的参数。 η = θTx 模型是线性的
+        η以不同的映射函数与其它概率分布函数中的参数φ发生联系，从而得到不同的模型，广义线性模型正是将指数分布族中的所有成员（每个成员正好有一个这样的联系）
+        都作为线性模型的扩展，通过各种非线性的连接函数(φ与η的函数)将线性函数θTx映射到其他空间，从而大大扩大了线性模型可解决的问题。
+        
+        连接函数 Φ = f(η)
+        在指数分布族中，未知参数为η，而我们想要求得的参数是一个权重向量θ。hθ(x)的作用，正是将二者关联起来，因此也称之为连接函数。
+        在广义线性模型中，参数η其实是概率分布的某个参数(如高斯分布的参数μ,伯努利分布的参数Φ等)的函数，例如η=η(μ)等等，而连接函数则是其反函数，即μ=η-1(η)。
+        解出反函数后，将η=θTx带入其中，即可得到hθ(x)。
+        
+        那么，对于一个给定的回归模型，连接函数的选取是否是唯一的呢？
+        在一般情况下，应选择η-1作为连接函数。但选择形态上与其类似的函数作为连接函数也是可以的，例如在逻辑回归中，可以选择双曲正切函数代替sigmoid函数，
+        只不过此时的回归模型不再是标准的回归模型了。
+        
+        http://blog.csdn.net/xierhacker/article/details/53364408  经典
+
+        
+2、为什么要用交叉熵作为损失函数？
+    熵是什么?设p是一个分布, -p ln(p) 表示该种概率分布的熵,而-ln(p)表示编码的长度。所以熵就是最小的平均编码长度。交叉熵,就是用一种分布q去近似未知的分布p
+    那如何评价你选的分布q的好坏呢? 就用你选定的q去编码分布p，然后得出的编码长度最小就表明你选择的分布q是很好的。
+    
+    我们知道用最大似然函数来估计样本的分布，而交叉熵的表达式就等于最大似然函数的表达式。
+    我们用softmax处理输出层之后，其实就是为了求最后的交叉熵。
+    softmax的最大似然估计和交叉熵是等价的  http://blog.csdn.net/u012436149/article/details/78006552
+    
+    9.18
+    
+    交叉熵 E[−logpi]=−∑mi=1pilogpi
+    
+    先看看sigmoid的交叉熵函数  http://blog.csdn.net/jasonzzj/article/details/52017438
+    原本的代价函数为:C = -1/m ∑[y*lnh(x) + (1-y)*(1 - lnh(x))]
+    将神经元的实际输出a代替预测输出h(x)，得到另一个交叉熵函数 C = -1/m ∑[y*lna + (1-y)*(1 - lna)]
+    对w和b求偏导后，不受σ′(z)的影响，所以迭代更新更快
+    
+    对于softmax的代价函数参考下面的
+    http://deeplearning.stanford.edu/wiki/index.php/
+    其交叉熵函数为  ∑-yi*lnaj  aj为实际神经元输出， yi为类别
+    然后同样的方法，对w和b求偏导  http://blog.csdn.net/templarzq/article/details/54171225 http://www.jianshu.com/p/ffa51250ba2e http://www.cnblogs.com/wacc/p/5341676.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

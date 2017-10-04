@@ -1,0 +1,463 @@
+ 2017-08-04 02:24:21  begin to run....
+ 
+... loading data
+... building the model
+....training
+training @ iter =  0
+epoch 1, minibatch 20/20, validation error 27.440000 %
+     epoch 1, minibatch 20/20, test error of best model 27.440000 %
+Optimization complete.
+Best validation score of 27.440000 % obtained at iteration 20, with test performance 27.440000 %
+The code ran for 3.89m
+epoch 2, minibatch 20/20, validation error 16.530000 %
+     epoch 2, minibatch 20/20, test error of best model 16.530000 %
+Optimization complete.
+Best validation score of 16.530000 % obtained at iteration 40, with test performance 16.530000 %
+The code ran for 7.94m
+epoch 3, minibatch 20/20, validation error 12.960000 %
+     epoch 3, minibatch 20/20, test error of best model 12.960000 %
+Optimization complete.
+Best validation score of 12.960000 % obtained at iteration 60, with test performance 12.960000 %
+The code ran for 12.05m
+epoch 4, minibatch 20/20, validation error 11.060000 %
+     epoch 4, minibatch 20/20, test error of best model 11.060000 %
+Optimization complete.
+Best validation score of 11.060000 % obtained at iteration 80, with test performance 11.060000 %
+The code ran for 16.19m
+epoch 5, minibatch 20/20, validation error 9.870000 %
+     epoch 5, minibatch 20/20, test error of best model 9.870000 %
+Optimization complete.
+Best validation score of 9.870000 % obtained at iteration 100, with test performance 9.870000 %
+The code ran for 20.33m
+training @ iter =  100
+epoch 6, minibatch 20/20, validation error 8.920000 %
+     epoch 6, minibatch 20/20, test error of best model 8.920000 %
+Optimization complete.
+Best validation score of 8.920000 % obtained at iteration 120, with test performance 8.920000 %
+The code ran for 24.34m
+epoch 7, minibatch 20/20, validation error 8.250000 %
+     epoch 7, minibatch 20/20, test error of best model 8.250000 %
+Optimization complete.
+Best validation score of 8.250000 % obtained at iteration 140, with test performance 8.250000 %
+The code ran for 28.21m
+epoch 8, minibatch 20/20, validation error 7.520000 %
+     epoch 8, minibatch 20/20, test error of best model 7.520000 %
+Optimization complete.
+Best validation score of 7.520000 % obtained at iteration 160, with test performance 7.520000 %
+The code ran for 32.32m
+epoch 9, minibatch 20/20, validation error 7.090000 %
+     epoch 9, minibatch 20/20, test error of best model 7.090000 %
+Optimization complete.
+Best validation score of 7.090000 % obtained at iteration 180, with test performance 7.090000 %
+The code ran for 36.30m
+epoch 10, minibatch 20/20, validation error 6.640000 %
+     epoch 10, minibatch 20/20, test error of best model 6.640000 %
+Optimization complete.
+Best validation score of 6.640000 % obtained at iteration 200, with test performance 6.640000 %
+The code ran for 40.18m
+training @ iter =  200
+epoch 11, minibatch 20/20, validation error 6.220000 %
+     epoch 11, minibatch 20/20, test error of best model 6.220000 %
+Optimization complete.
+Best validation score of 6.220000 % obtained at iteration 220, with test performance 6.220000 %
+The code ran for 44.29m
+epoch 12, minibatch 20/20, validation error 5.790000 %
+     epoch 12, minibatch 20/20, test error of best model 5.790000 %
+Optimization complete.
+Best validation score of 5.790000 % obtained at iteration 240, with test performance 5.790000 %
+The code ran for 48.44m
+epoch 13, minibatch 20/20, validation error 5.450000 %
+     epoch 13, minibatch 20/20, test error of best model 5.450000 %
+Optimization complete.
+Best validation score of 5.450000 % obtained at iteration 260, with test performance 5.450000 %
+The code ran for 52.74m
+epoch 14, minibatch 20/20, validation error 5.170000 %
+     epoch 14, minibatch 20/20, test error of best model 5.170000 %
+Optimization complete.
+Best validation score of 5.170000 % obtained at iteration 280, with test performance 5.170000 %
+The code ran for 56.76m
+epoch 15, minibatch 20/20, validation error 4.820000 %
+     epoch 15, minibatch 20/20, test error of best model 4.820000 %
+Optimization complete.
+Best validation score of 4.820000 % obtained at iteration 300, with test performance 4.820000 %
+The code ran for 60.84m
+training @ iter =  300
+epoch 16, minibatch 20/20, validation error 4.460000 %
+     epoch 16, minibatch 20/20, test error of best model 4.460000 %
+Optimization complete.
+Best validation score of 4.460000 % obtained at iteration 320, with test performance 4.460000 %
+The code ran for 64.92m
+epoch 17, minibatch 20/20, validation error 4.230000 %
+     epoch 17, minibatch 20/20, test error of best model 4.230000 %
+Optimization complete.
+Best validation score of 4.230000 % obtained at iteration 340, with test performance 4.230000 %
+The code ran for 70.07m
+epoch 18, minibatch 20/20, validation error 4.020000 %
+     epoch 18, minibatch 20/20, test error of best model 4.020000 %
+Optimization complete.
+Best validation score of 4.020000 % obtained at iteration 360, with test performance 4.020000 %
+The code ran for 75.27m
+epoch 19, minibatch 20/20, validation error 3.810000 %
+     epoch 19, minibatch 20/20, test error of best model 3.810000 %
+Optimization complete.
+Best validation score of 3.810000 % obtained at iteration 380, with test performance 3.810000 %
+The code ran for 80.45m
+epoch 20, minibatch 20/20, validation error 3.530000 %
+     epoch 20, minibatch 20/20, test error of best model 3.530000 %
+Optimization complete.
+Best validation score of 3.530000 % obtained at iteration 400, with test performance 3.530000 %
+The code ran for 85.64m
+training @ iter =  400
+epoch 21, minibatch 20/20, validation error 3.310000 %
+     epoch 21, minibatch 20/20, test error of best model 3.310000 %
+Optimization complete.
+Best validation score of 3.310000 % obtained at iteration 420, with test performance 3.310000 %
+The code ran for 90.48m
+epoch 22, minibatch 20/20, validation error 3.100000 %
+     epoch 22, minibatch 20/20, test error of best model 3.100000 %
+Optimization complete.
+Best validation score of 3.100000 % obtained at iteration 440, with test performance 3.100000 %
+The code ran for 94.50m
+epoch 23, minibatch 20/20, validation error 2.990000 %
+     epoch 23, minibatch 20/20, test error of best model 2.990000 %
+Optimization complete.
+Best validation score of 2.990000 % obtained at iteration 460, with test performance 2.990000 %
+The code ran for 98.63m
+epoch 24, minibatch 20/20, validation error 2.800000 %
+     epoch 24, minibatch 20/20, test error of best model 2.800000 %
+Optimization complete.
+Best validation score of 2.800000 % obtained at iteration 480, with test performance 2.800000 %
+The code ran for 102.72m
+epoch 25, minibatch 20/20, validation error 2.670000 %
+     epoch 25, minibatch 20/20, test error of best model 2.670000 %
+Optimization complete.
+Best validation score of 2.670000 % obtained at iteration 500, with test performance 2.670000 %
+The code ran for 107.85m
+training @ iter =  500
+epoch 26, minibatch 20/20, validation error 2.590000 %
+     epoch 26, minibatch 20/20, test error of best model 2.590000 %
+Optimization complete.
+Best validation score of 2.590000 % obtained at iteration 520, with test performance 2.590000 %
+The code ran for 113.02m
+epoch 27, minibatch 20/20, validation error 2.470000 %
+     epoch 27, minibatch 20/20, test error of best model 2.470000 %
+Optimization complete.
+Best validation score of 2.470000 % obtained at iteration 540, with test performance 2.470000 %
+The code ran for 118.20m
+epoch 28, minibatch 20/20, validation error 2.360000 %
+     epoch 28, minibatch 20/20, test error of best model 2.360000 %
+Optimization complete.
+Best validation score of 2.360000 % obtained at iteration 560, with test performance 2.360000 %
+The code ran for 123.06m
+epoch 29, minibatch 20/20, validation error 2.270000 %
+     epoch 29, minibatch 20/20, test error of best model 2.270000 %
+Optimization complete.
+Best validation score of 2.270000 % obtained at iteration 580, with test performance 2.270000 %
+The code ran for 127.94m
+epoch 30, minibatch 20/20, validation error 2.120000 %
+     epoch 30, minibatch 20/20, test error of best model 2.120000 %
+Optimization complete.
+Best validation score of 2.120000 % obtained at iteration 600, with test performance 2.120000 %
+The code ran for 133.00m
+training @ iter =  600
+epoch 31, minibatch 20/20, validation error 2.000000 %
+     epoch 31, minibatch 20/20, test error of best model 2.000000 %
+Optimization complete.
+Best validation score of 2.000000 % obtained at iteration 620, with test performance 2.000000 %
+The code ran for 138.37m
+epoch 32, minibatch 20/20, validation error 1.920000 %
+     epoch 32, minibatch 20/20, test error of best model 1.920000 %
+Optimization complete.
+Best validation score of 1.920000 % obtained at iteration 640, with test performance 1.920000 %
+The code ran for 143.14m
+epoch 33, minibatch 20/20, validation error 1.830000 %
+     epoch 33, minibatch 20/20, test error of best model 1.830000 %
+Optimization complete.
+Best validation score of 1.830000 % obtained at iteration 660, with test performance 1.830000 %
+The code ran for 148.38m
+epoch 34, minibatch 20/20, validation error 1.720000 %
+     epoch 34, minibatch 20/20, test error of best model 1.720000 %
+Optimization complete.
+Best validation score of 1.720000 % obtained at iteration 680, with test performance 1.720000 %
+The code ran for 153.69m
+epoch 35, minibatch 20/20, validation error 1.640000 %
+     epoch 35, minibatch 20/20, test error of best model 1.640000 %
+Optimization complete.
+Best validation score of 1.640000 % obtained at iteration 700, with test performance 1.640000 %
+The code ran for 159.09m
+training @ iter =  700
+epoch 36, minibatch 20/20, validation error 1.510000 %
+     epoch 36, minibatch 20/20, test error of best model 1.510000 %
+Optimization complete.
+Best validation score of 1.510000 % obtained at iteration 720, with test performance 1.510000 %
+The code ran for 164.38m
+epoch 37, minibatch 20/20, validation error 1.460000 %
+     epoch 37, minibatch 20/20, test error of best model 1.460000 %
+Optimization complete.
+Best validation score of 1.460000 % obtained at iteration 740, with test performance 1.460000 %
+The code ran for 169.80m
+epoch 38, minibatch 20/20, validation error 1.410000 %
+     epoch 38, minibatch 20/20, test error of best model 1.410000 %
+Optimization complete.
+Best validation score of 1.410000 % obtained at iteration 760, with test performance 1.410000 %
+The code ran for 175.45m
+epoch 39, minibatch 20/20, validation error 1.370000 %
+     epoch 39, minibatch 20/20, test error of best model 1.370000 %
+Optimization complete.
+Best validation score of 1.370000 % obtained at iteration 780, with test performance 1.370000 %
+The code ran for 181.06m
+epoch 40, minibatch 20/20, validation error 1.310000 %
+     epoch 40, minibatch 20/20, test error of best model 1.310000 %
+Optimization complete.
+Best validation score of 1.310000 % obtained at iteration 800, with test performance 1.310000 %
+The code ran for 186.58m
+training @ iter =  800
+epoch 41, minibatch 20/20, validation error 1.220000 %
+     epoch 41, minibatch 20/20, test error of best model 1.220000 %
+Optimization complete.
+Best validation score of 1.220000 % obtained at iteration 820, with test performance 1.220000 %
+The code ran for 191.67m
+epoch 42, minibatch 20/20, validation error 1.110000 %
+     epoch 42, minibatch 20/20, test error of best model 1.110000 %
+Optimization complete.
+Best validation score of 1.110000 % obtained at iteration 840, with test performance 1.110000 %
+The code ran for 197.17m
+epoch 43, minibatch 20/20, validation error 1.060000 %
+     epoch 43, minibatch 20/20, test error of best model 1.060000 %
+Optimization complete.
+Best validation score of 1.060000 % obtained at iteration 860, with test performance 1.060000 %
+The code ran for 202.74m
+epoch 44, minibatch 20/20, validation error 1.040000 %
+     epoch 44, minibatch 20/20, test error of best model 1.040000 %
+Optimization complete.
+Best validation score of 1.040000 % obtained at iteration 880, with test performance 1.040000 %
+The code ran for 208.21m
+epoch 45, minibatch 20/20, validation error 0.990000 %
+     epoch 45, minibatch 20/20, test error of best model 0.990000 %
+Optimization complete.
+Best validation score of 0.990000 % obtained at iteration 900, with test performance 0.990000 %
+The code ran for 213.72m
+training @ iter =  900
+epoch 46, minibatch 20/20, validation error 0.950000 %
+     epoch 46, minibatch 20/20, test error of best model 0.950000 %
+Optimization complete.
+Best validation score of 0.950000 % obtained at iteration 920, with test performance 0.950000 %
+The code ran for 219.07m
+epoch 47, minibatch 20/20, validation error 0.910000 %
+     epoch 47, minibatch 20/20, test error of best model 0.910000 %
+Optimization complete.
+Best validation score of 0.910000 % obtained at iteration 940, with test performance 0.910000 %
+The code ran for 224.49m
+epoch 48, minibatch 20/20, validation error 0.870000 %
+     epoch 48, minibatch 20/20, test error of best model 0.870000 %
+Optimization complete.
+Best validation score of 0.870000 % obtained at iteration 960, with test performance 0.870000 %
+The code ran for 229.80m
+epoch 49, minibatch 20/20, validation error 0.800000 %
+     epoch 49, minibatch 20/20, test error of best model 0.800000 %
+Optimization complete.
+Best validation score of 0.800000 % obtained at iteration 980, with test performance 0.800000 %
+The code ran for 235.03m
+epoch 50, minibatch 20/20, validation error 0.790000 %
+     epoch 50, minibatch 20/20, test error of best model 0.790000 %
+Optimization complete.
+Best validation score of 0.790000 % obtained at iteration 1000, with test performance 0.790000 %
+The code ran for 240.31m
+training @ iter =  1000
+epoch 51, minibatch 20/20, validation error 0.790000 %
+Optimization complete.
+Best validation score of 0.790000 % obtained at iteration 1000, with test performance 0.790000 %
+The code ran for 244.34m
+epoch 52, minibatch 20/20, validation error 0.770000 %
+     epoch 52, minibatch 20/20, test error of best model 0.770000 %
+Optimization complete.
+Best validation score of 0.770000 % obtained at iteration 1040, with test performance 0.770000 %
+The code ran for 249.42m
+epoch 53, minibatch 20/20, validation error 0.740000 %
+     epoch 53, minibatch 20/20, test error of best model 0.740000 %
+Optimization complete.
+Best validation score of 0.740000 % obtained at iteration 1060, with test performance 0.740000 %
+The code ran for 254.56m
+epoch 54, minibatch 20/20, validation error 0.690000 %
+     epoch 54, minibatch 20/20, test error of best model 0.690000 %
+Optimization complete.
+Best validation score of 0.690000 % obtained at iteration 1080, with test performance 0.690000 %
+The code ran for 259.69m
+epoch 55, minibatch 20/20, validation error 0.660000 %
+     epoch 55, minibatch 20/20, test error of best model 0.660000 %
+Optimization complete.
+Best validation score of 0.660000 % obtained at iteration 1100, with test performance 0.660000 %
+The code ran for 264.86m
+training @ iter =  1100
+epoch 56, minibatch 20/20, validation error 0.630000 %
+     epoch 56, minibatch 20/20, test error of best model 0.630000 %
+Optimization complete.
+Best validation score of 0.630000 % obtained at iteration 1120, with test performance 0.630000 %
+The code ran for 270.09m
+epoch 57, minibatch 20/20, validation error 0.590000 %
+     epoch 57, minibatch 20/20, test error of best model 0.590000 %
+Optimization complete.
+Best validation score of 0.590000 % obtained at iteration 1140, with test performance 0.590000 %
+The code ran for 275.21m
+epoch 58, minibatch 20/20, validation error 0.560000 %
+     epoch 58, minibatch 20/20, test error of best model 0.560000 %
+Optimization complete.
+Best validation score of 0.560000 % obtained at iteration 1160, with test performance 0.560000 %
+The code ran for 280.58m
+epoch 59, minibatch 20/20, validation error 0.530000 %
+     epoch 59, minibatch 20/20, test error of best model 0.530000 %
+Optimization complete.
+Best validation score of 0.530000 % obtained at iteration 1180, with test performance 0.530000 %
+The code ran for 285.80m
+epoch 60, minibatch 20/20, validation error 0.460000 %
+     epoch 60, minibatch 20/20, test error of best model 0.460000 %
+Optimization complete.
+Best validation score of 0.460000 % obtained at iteration 1200, with test performance 0.460000 %
+The code ran for 290.87m
+training @ iter =  1200
+epoch 61, minibatch 20/20, validation error 0.430000 %
+     epoch 61, minibatch 20/20, test error of best model 0.430000 %
+Optimization complete.
+Best validation score of 0.430000 % obtained at iteration 1220, with test performance 0.430000 %
+The code ran for 296.15m
+epoch 62, minibatch 20/20, validation error 0.380000 %
+     epoch 62, minibatch 20/20, test error of best model 0.380000 %
+Optimization complete.
+Best validation score of 0.380000 % obtained at iteration 1240, with test performance 0.380000 %
+The code ran for 301.20m
+epoch 63, minibatch 20/20, validation error 0.370000 %
+     epoch 63, minibatch 20/20, test error of best model 0.370000 %
+Optimization complete.
+Best validation score of 0.370000 % obtained at iteration 1260, with test performance 0.370000 %
+The code ran for 306.37m
+epoch 64, minibatch 20/20, validation error 0.370000 %
+Optimization complete.
+Best validation score of 0.370000 % obtained at iteration 1260, with test performance 0.370000 %
+The code ran for 310.43m
+epoch 65, minibatch 20/20, validation error 0.350000 %
+     epoch 65, minibatch 20/20, test error of best model 0.350000 %
+Optimization complete.
+Best validation score of 0.350000 % obtained at iteration 1300, with test performance 0.350000 %
+The code ran for 315.74m
+training @ iter =  1300
+epoch 66, minibatch 20/20, validation error 0.330000 %
+     epoch 66, minibatch 20/20, test error of best model 0.330000 %
+Optimization complete.
+Best validation score of 0.330000 % obtained at iteration 1320, with test performance 0.330000 %
+The code ran for 320.83m
+epoch 67, minibatch 20/20, validation error 0.300000 %
+     epoch 67, minibatch 20/20, test error of best model 0.300000 %
+Optimization complete.
+Best validation score of 0.300000 % obtained at iteration 1340, with test performance 0.300000 %
+The code ran for 325.94m
+epoch 68, minibatch 20/20, validation error 0.300000 %
+Optimization complete.
+Best validation score of 0.300000 % obtained at iteration 1340, with test performance 0.300000 %
+The code ran for 330.04m
+epoch 69, minibatch 20/20, validation error 0.260000 %
+     epoch 69, minibatch 20/20, test error of best model 0.260000 %
+Optimization complete.
+Best validation score of 0.260000 % obtained at iteration 1380, with test performance 0.260000 %
+The code ran for 335.15m
+epoch 70, minibatch 20/20, validation error 0.240000 %
+     epoch 70, minibatch 20/20, test error of best model 0.240000 %
+Optimization complete.
+Best validation score of 0.240000 % obtained at iteration 1400, with test performance 0.240000 %
+The code ran for 340.20m
+training @ iter =  1400
+epoch 71, minibatch 20/20, validation error 0.240000 %
+Optimization complete.
+Best validation score of 0.240000 % obtained at iteration 1400, with test performance 0.240000 %
+The code ran for 344.15m
+epoch 72, minibatch 20/20, validation error 0.240000 %
+Optimization complete.
+Best validation score of 0.240000 % obtained at iteration 1400, with test performance 0.240000 %
+The code ran for 348.09m
+epoch 73, minibatch 20/20, validation error 0.230000 %
+     epoch 73, minibatch 20/20, test error of best model 0.230000 %
+Optimization complete.
+Best validation score of 0.230000 % obtained at iteration 1460, with test performance 0.230000 %
+The code ran for 353.39m
+epoch 74, minibatch 20/20, validation error 0.220000 %
+     epoch 74, minibatch 20/20, test error of best model 0.220000 %
+Optimization complete.
+Best validation score of 0.220000 % obtained at iteration 1480, with test performance 0.220000 %
+The code ran for 358.96m
+epoch 75, minibatch 20/20, validation error 0.210000 %
+     epoch 75, minibatch 20/20, test error of best model 0.210000 %
+Optimization complete.
+Best validation score of 0.210000 % obtained at iteration 1500, with test performance 0.210000 %
+The code ran for 364.41m
+training @ iter =  1500
+epoch 76, minibatch 20/20, validation error 0.200000 %
+     epoch 76, minibatch 20/20, test error of best model 0.200000 %
+Optimization complete.
+Best validation score of 0.200000 % obtained at iteration 1520, with test performance 0.200000 %
+The code ran for 369.54m
+epoch 77, minibatch 20/20, validation error 0.200000 %
+Optimization complete.
+Best validation score of 0.200000 % obtained at iteration 1520, with test performance 0.200000 %
+The code ran for 373.26m
+epoch 78, minibatch 20/20, validation error 0.200000 %
+Optimization complete.
+Best validation score of 0.200000 % obtained at iteration 1520, with test performance 0.200000 %
+The code ran for 377.31m
+epoch 79, minibatch 20/20, validation error 0.180000 %
+     epoch 79, minibatch 20/20, test error of best model 0.180000 %
+Optimization complete.
+Best validation score of 0.180000 % obtained at iteration 1580, with test performance 0.180000 %
+The code ran for 382.52m
+epoch 80, minibatch 20/20, validation error 0.180000 %
+Optimization complete.
+Best validation score of 0.180000 % obtained at iteration 1580, with test performance 0.180000 %
+The code ran for 386.50m
+training @ iter =  1600
+epoch 81, minibatch 20/20, validation error 0.170000 %
+     epoch 81, minibatch 20/20, test error of best model 0.170000 %
+Optimization complete.
+Best validation score of 0.170000 % obtained at iteration 1620, with test performance 0.170000 %
+The code ran for 391.75m
+epoch 82, minibatch 20/20, validation error 0.170000 %
+Optimization complete.
+Best validation score of 0.170000 % obtained at iteration 1620, with test performance 0.170000 %
+The code ran for 395.69m
+epoch 83, minibatch 20/20, validation error 0.170000 %
+Optimization complete.
+Best validation score of 0.170000 % obtained at iteration 1620, with test performance 0.170000 %
+The code ran for 399.80m
+epoch 84, minibatch 20/20, validation error 0.160000 %
+     epoch 84, minibatch 20/20, test error of best model 0.160000 %
+Optimization complete.
+Best validation score of 0.160000 % obtained at iteration 1680, with test performance 0.160000 %
+The code ran for 405.24m
+epoch 85, minibatch 20/20, validation error 0.130000 %
+     epoch 85, minibatch 20/20, test error of best model 0.130000 %
+Optimization complete.
+Best validation score of 0.130000 % obtained at iteration 1700, with test performance 0.130000 %
+The code ran for 410.37m
+training @ iter =  1700
+epoch 86, minibatch 20/20, validation error 0.120000 %
+     epoch 86, minibatch 20/20, test error of best model 0.120000 %
+Optimization complete.
+Best validation score of 0.120000 % obtained at iteration 1720, with test performance 0.120000 %
+The code ran for 415.60m
+epoch 87, minibatch 20/20, validation error 0.120000 %
+Optimization complete.
+Best validation score of 0.120000 % obtained at iteration 1720, with test performance 0.120000 %
+The code ran for 419.54m
+epoch 88, minibatch 20/20, validation error 0.120000 %
+Optimization complete.
+Best validation score of 0.120000 % obtained at iteration 1720, with test performance 0.120000 %
+The code ran for 423.39m
+epoch 89, minibatch 20/20, validation error 0.110000 %
+     epoch 89, minibatch 20/20, test error of best model 0.110000 %
+Optimization complete.
+Best validation score of 0.110000 % obtained at iteration 1780, with test performance 0.110000 %
+The code ran for 428.92m
+epoch 90, minibatch 20/20, validation error 0.110000 %
+Optimization complete.
+Best validation score of 0.110000 % obtained at iteration 1780, with test performance 0.110000 %
+The code ran for 432.95m
+training @ iter =  1800
+cancel#####
+2017-08-04 05:24:47 job 11478 failed cost 180.24481446666667min
