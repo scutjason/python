@@ -1,0 +1,21 @@
+Determine whether an integer is a palindrome. Do this without extra space.
+判断一个input是否为回文数， 如 121 11 等
+
+class Solution(object):
+    def isPalindrome(self, x):
+        """
+        :type x: int
+        :rtype: bool
+        """
+        
+        # 负数肯定不是的
+        if x < 0:
+            return False
+        
+        # 将整数反转判断是否与input相等
+        tmp = x
+        y = 0
+        while tmp:  # 不等于0就继续
+            y = y*10 + tmp % 10  # 学习这个翻转的写法
+            tmp /= 10
+        return y == x  # 判断相等时直接用表达式，简洁
