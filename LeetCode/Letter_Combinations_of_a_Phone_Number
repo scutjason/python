@@ -7,6 +7,9 @@ Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 
 
 # 递归解法
+# A X B X C = (A X B) X C
+# 最终要化为两个字符串A和B乘法
+
 class Solution(object):
     def letterCombinations(self, digits):
         """
@@ -19,6 +22,11 @@ class Solution(object):
             return []
         if len(digits) == 1:
             return list(mapping[digits[0]])
+        # 妙哉，这个用prev一直保存着digits前面的N-1个相乘的结果，一直递归前面的N-1个
         prev = self.letterCombinations(digits[:-1])
+        
+        # additional就是digits最后的那个N 字符串
         additional = mapping[digits[-1]]
+        
+        # 用两个for循环收网
         return [s + c for s in prev for c in additional]
