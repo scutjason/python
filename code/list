@@ -186,7 +186,11 @@ dict.copy()	# 深拷贝dict，但是对于dict中的value不做不拷贝，还�
 dict.update({'e':5})
 >>{'b': 2, 'e': 5, 'c': 3, 'a': 1}
 												
-
+10、排序
+sorted(items, key, reverse)
+a={'a':1, 'c':2, 'b':3}
+sorted(a.items(), key=lambda items:items[0])
+>>[('a', 1), ('b', 3), ('c', 2)]
 
 
 
