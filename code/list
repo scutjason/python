@@ -1,1 +1,207 @@
-列表
+															list[]
+1、创建list
+list = [1,2,3,4]
+
+2、更新元素
+list[2] = 5
+>>[1, 2, 5, 4]
+
+3、删除元素
+del list[2]
+>>[1, 2, 4]
+
+4、基本操作
+
+# 长度
+len(list)
+>>3
+
+list + [5,6]
+>>[1, 2, 4, 5, 6]
+
+in
+5 in list
+>>True
+
+list*2
+>>[1, 2, 4, 5, 6, 1, 2, 4, 5, 6]
+
+# 列表截取
+list[2]
+>>4
+list[-1]
+>>6
+list[1:]
+>>[2, 4, 5, 6, 1, 2, 4, 5, 6]
+
+# 转成list
+str='hello list'
+list(str)
+>>['h', 'e', 'l', 'l', 'o', ' ', 'l', 'i', 's', 't']
+
+# 追加
+# append(obj)
+list.append([7,8,9])		# 将obj作为一个统一的元素看待
+>>[2, 4, 5, 6, 1, 2, 4, 5, 6, [7, 8, 9]] 
+
+# extend(obj)	# 将obj拆开作为一个个单独的元素加入list
+list.extend([7,8,9])
+>>[2, 4, 5, 6, 1, 2, 4, 5, 6, 7, 8, 9]
+
+# 统计
+# count
+list.count(2)	# 统计7再list中的出现次数
+>>2
+
+
+# 索引
+# index(obj)		# 返回(obj)第一次出现的位置
+list.index(4)
+>>1
+
+# 插入
+# insert(index, obj)	# index是插入的索引位置
+list.insert(1,3)
+>>[2, 3, 4, 5, 6, 1, 2, 4, 5, 6, 7, 8, 9]
+
+# 删除
+# pop()	# 默认移除最后一个元素并且返回该元素
+list.pop()
+>>9
+>>[2, 3, 4, 5, 6, 1, 2, 4, 5, 6, 7, 8]  # list
+
+# remove(obj)	# 删除第一个匹配的obj
+list.remove(2)
+>>[3, 4, 5, 6, 1, 2, 4, 5, 6, 7, 8]
+
+# 翻转
+# reverse
+list.reverse()	# 等于list[::-1]
+>>[8, 7, 6, 5, 4, 2, 1, 6, 5, 4, 3]
+
+# 排序
+list.sort()
+>>[1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 8]
+
+# 转出字符串
+list1=['s','t','r','i','n','g']
+''.join(list)
+>>string
+
+
+															tuple()	
+与list大部分相似，但由以下不同点
+1、不能用del删除元素，只能del整个tuple
+
+tup=(1,2,3)
+del(tup[1])
+>>TypeError: 'tuple' object doesn't support item deletion
+
+2、不能改变tuple中的任意元素的值
+
+tup[1]=4
+>>TypeError: 'tuple' object does not support item assignment
+
+
+															set()
+1、创建set()
+set=set('hello set')
+>>{'t', 'h', 's', 'l', ' ', 'o', 'e'}  # set是无序的，并且是不重复的，去掉了一个'l'和一个'e'
+
+2、访问
+# in  因为是无序的，所以不知道具体的索引，只能用for in 遍历比较在输出, 或者 in 判断
+'o' in set:
+>>True
+
+3、更新
+# add(char)
+set.add('a')
+>>{' ', 'h', 't', 'a', 'o', 'l', 'e', 's'}
+
+# update(string)
+set.update('b')
+>>{'b', 'o', 'h', 'e', ' ', 'l', 's', 't', 'a'}
+
+4、删除
+# remove(char)
+set.remove('b')
+>>{'e', ' ', 'l', 's', 't', 'a', 'o', 'h'}
+
+# -  用差集的方法
+set -= set('ae')
+>>{' ', 'l', 's', 't', 'o', 'h'}
+
+# del
+del(set)	# 删除整个set
+
+# clear
+set.clear()	# 清除所有元素
+
+5、差集 - 、并集 | 、与集 &
+
+															dict{}
+键值必须唯一
+1、创建字典
+dict = dict{'a':1, 'b':2, 'c':3}
+
+2、访问[]
+dict['a']
+>>1
+
+3、修改字典
+dict['c'] = 4
+>>{'a': 1, 'c': 4, 'b': 2}
+
+4、删除
+del dict['a']    # 删除键是'a'的条目
+>>{'b': 2, 'c': 4}
+
+dict.pop('b')
+>>{'c': 3}
+
+dict.clear()     # 清空词典所有条目
+>>{}
+
+del dict         # 删除词典		
+
+5、转出字符串str()
+str(dict)
+>>{'b': 2, 'a': 1, 'c': 3}	# 字符串形式
+
+6、复制
+# copy()
+dict.copy()	# 深拷贝dict，但是对于dict中的value不做不拷贝，还是引用
+>>{'c': 3, 'a': 1, 'b': 2}											
+
+
+6、键值是否存在
+'a' in dict
+>>True
+
+7、dict.keys() 		# 返回所有的键值对
+
+8、dict.values() 	# 返回所有的值
+
+												
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
