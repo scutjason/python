@@ -1,3 +1,222 @@
-1、分割字符串
-strip
-http://www.cnblogs.com/huangcong/archive/2011/08/29/2158268.html
+1、创建字符串
+str = 'hello string'
+
+2、访问字符串的值
+str[0]
+>>h
+
+str[-1]
+>>g
+
+str[1:2]
+>>e
+
+str[1:5:2]
+>>el
+
+3、字符串修改
+str[0:6] + 'jingjing'
+>>hello jingjing
+
+4、字符串运算
+
++		字符串拼接		
+*		字符串重复		str*2 >>hello stringhello string
+in		是否包含		h in str >>True 
+not in	是否不包含		H not in str >>True
+r		不转义			print r'\n' >>\n
+%c		格式化字符
+%s      格式化字符串
+%d		格式化数字
+%x		格式化十六进制
+%f		格式化浮点
+%p      格式化地址
+
+5、字符串基本函数
+
+# 遍历
+for c in str:
+	print(c)
+>>h
+>>e
+..
+
+# 翻转
+str[::-1]
+>>gnirts olleh
+
+
+
+str.count(sub, start=0, end=len(str))	# 返回搜索sub子字符串的出现的次数，默认从0到字符串长度
+	str.count('g',2)	# 2表示从2位置开始一直到结尾
+	>>1 
+
+
+str.format()	# 格式化
+	'{} {}'.format('hello', 'string')	# 用{} 代替百分号
+	>>hello string
+
+	'{1} {0} {1}'.format('hello', 'string')	# 指定顺序
+	>>string hello string
+
+	'{:.2f}'.format(3.1415926)	# 制定小数位数
+	>>3.14
+
+	'{:0>2d}'.format(5)	# 向左扩充, 那边张开就向哪边扩充
+	>>05
+
+
+	'{:x<6d}'.format(10)	# 向右扩充x
+	>>10xxxx
+
+	'{:.2%}'.format(0.25)	# 百分比格式
+	>>25.00%
+
+	'{:.2e}'.format(10000)	# 1e+1
+	>>1.00e+04
+	
+# 索引
+str.find(sub, beg=0, end=len(string))	# 找出sub子串再str中的第一个索引位置,否则返回-1
+	str.find('el', 1)
+	>>1
+str.rfind(sub, beg=0, end=len(string))	# 找出sub子串再str中的第一个索引位置,否则返回-1, 从右边寻找
+	str.find('el', 1)
+	>>1
+	
+str.index(sub, beg=0, end=len(str))	# 找出sub子串再str中的第一个索引位置， 不存在则返回异常
+	str.index('lo', 2)
+	>>3
+str.rindex(sub, beg=0, end=len(str))	# 找出sub子串再str中的第一个索引位置， 不存在则返回异常, 从右边寻找
+	str.rindex('lo', 2)
+	>>3
+	
+# 判断
+str.isalnum()	# 判断str是否全部只由数字和字符组成
+	str.isalnum()	
+	>>False	# 有个空格
+	
+str.isalpha()	# 判断str是否全部字符是字母
+	str.isalpha
+	>>False	# 有个空格
+	
+str.isdigit()	# 判断是否全部由数字组成
+	str.isdigit()
+	>>False
+	
+str.isspace()	# 判断是否只含有空格	\t \n \r 和空格都会返回True
+	str.isspace()
+	>>False
+	
+
+# 填充
+str.ljust(width, 'fillchar') # 左对齐，右边填充fillchar
+	str.ljust(20, '0')
+	>>hello string00000000
+str.rjust(width, 'fillchar') # 右对齐， 左边填充fillchar
+	str.rjust(20, '0')
+	>>00000000hello string
+str.zfill(width)	# 前面填0,
+	str.zfill(20)
+	>>00000000hello string
+
+# 大小写
+str.lower()	# 所有字符转出小写
+	str.lower()
+	>>hello string
+	
+str.upper()	# 所有的字符转为大写
+	str.upper()
+	>>HELLO STRING
+	
+str.isupper()	# 判断是否只含有大写字符和其他
+	str.isupper()
+	>>False	
+	
+str.islower()	# 判断是否只含有小写字母和其他
+	str.islower()
+	>>True
+	
+# 截取
+str.strip(chars)	# 截去头部和尾部的指定字符串chars ，也可以是单个字符，默认是空格
+	str.strip('h')
+	>>ello string
+	
+str.lstrip(chars)	# 截去左边的指定字符串chars ，也可以是单个字符，默认是空格
+	str.lstrip('hello')
+	>> string
+	
+str.rstrip(chars)	# 截去右边的指定字符串chars ，也可以是单个字符，默认是空格
+	str.rstrip('ing')
+	>>hello str
+	
+# 求长度和最大 最小
+max(str)	# 返回最大的字符
+	max(str)
+	>>t
+	
+min(str)	#　返回最小的字符
+	min(str)
+	>> 		# 空格
+
+len(str)	# 返回str的长度
+	len(str)
+	>>12
+
+# 替换
+str.replace('old', 'new', max=str.count(old))	# 将字符串中的old替换成new，默认是全部替换
+	str.replace('lo', 'LO')
+	>>helLO string
+	
+# 分割
+str.split(sub='', num=str.count(sub))	# 按照sub子串来分割str
+	str.split(' ')
+	>>['hello', 'string']
+	
+str.partition(dim)	# str按照指定的dim字符串来分割，只分割第一个
+	str.partition(' ')
+	>>('hello', ' ', 'string') # 中间是分割符
+	
+str.rpartition(dim)	# str按照指定的dim字符串来分割，只分割第一个 从右边分割
+	str.partition(' ')
+	>>('hello', ' ', 'string') # 中间是分割符
+	
+str.splitlines([keepends])	# 按行分割，\n \r \r\n keepends为True，则保留分割符, 默认不保留
+	str2 = 'a\n\nbc\rd\r'
+	str2.splitlines()
+	>>['a', '', 'bc', 'd']
+	
+
+# 其他
+str.capitalize()	# 将字符串的首字母变成大写，其他字母变成小写，忽略掉其他字符
+	>>Hello string
+
+str.center(width, fillchar)		# 将str居中，并扩充至width长度，两头填充fillchar字符, 如果fillchar为空，则默认扩充空格
+	str.center(20, '*')		
+	>>****hello string****
+	
+
+str.endswith(suffix, start=0, end=len(str))	# 判断字符串是否以suffix结尾
+	str.endsswith('ing', 2)
+	>>True
+	str.endswith('lo', 2, 6)
+	>>False
+
+
+str.join(seq)	# seq序列用str连接
+	str1 = ('a', 'b', 'c')
+	'-'.join(str1)
+	>>a-b-c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
