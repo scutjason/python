@@ -10,6 +10,13 @@ Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 # A X B X C = (A X B) X C
 # 最终要化为两个字符串A和B乘法
 
+# 这里总结下递归的思路和写法
+'''
+    1、首先是递归的结束条件，一般都是len长度为0或者1 这些
+    2、接下来是写循环递归的主体部分
+    3、最后写返回
+'''
+
 class Solution(object):
     def letterCombinations(self, digits):
         """
