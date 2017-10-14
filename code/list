@@ -1,4 +1,4 @@
-															list[]
+							list[]
 1、创建list
 list = [1,2,3,4]
 
@@ -89,7 +89,7 @@ list1=['s','t','r','i','n','g']
 >>string
 
 
-															tuple()	
+							tuple()	
 与list大部分相似，但由以下不同点
 1、不能用del删除元素，只能del整个tuple
 
@@ -103,7 +103,7 @@ tup[1]=4
 >>TypeError: 'tuple' object does not support item assignment
 
 
-															set()
+							set()
 1、创建set()
 set=set('hello set')
 >>{'t', 'h', 's', 'l', ' ', 'o', 'e'}  # set是无序的，并且是不重复的，去掉了一个'l'和一个'e'
@@ -139,7 +139,7 @@ set.clear()	# 清除所有元素
 
 5、差集 - 、并集 | 、与集 &
 
-															dict{}
+							dict{}
 键值必须唯一
 1、创建字典
 dict = dict{'a':1, 'b':2, 'c':3}
