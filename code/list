@@ -182,6 +182,9 @@ dict.copy()	# 深拷贝dict，但是对于dict中的value不做不拷贝，还�
 
 8、dict.values() 	# 返回所有的值
 
+9、dict.update(dict2)	# 把dict2字典合并到dict中
+dict.update({'e':5})
+>>{'b': 2, 'e': 5, 'c': 3, 'a': 1}
 												
 
 
