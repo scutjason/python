@@ -1,0 +1,89 @@
+# http是一个包，里面含有多个模块：http.client，http.server，http.cookies，http.cookiejar
+
+							http.client
+							
+# 这是个比较底层的包，通常它不直接使用，urllib.request就是调用的htpp.client
+# 里面主要有HTTPConnection 和 HTTPResponse
+
+# HTTPConnection
+	
+	# 建立连接
+	import http.client
+	h1 = http.client.HTTPConnection('www.python.org')			# 返回 HTTPConnection 实例	
+	>><http.client.HTTPConnection object at 0x7f3163a06c50>
+	h2 = http.client.HTTPConnection('www.python.org', 80, timeout=10)
+	>><http.client.HTTPConnection object at 0x7f3163a06c18>
+
+
+	# 发送请求
+	HTTPConnection.request(method, url, body=None, headers={}, *, encode_chunked=False)
+
+	# 获取响应
+	HTTPConnection.getresponse()	发送请求后从服务端获取响应， 返回 HTTPResponse 实例
+
+	# 发送数据
+	HTTPConnection.send(data)
+	
+	# 关闭连接
+	HTTPConnection.close()
+
+# HTTPResponse
+	
+	# 读数据
+	HTTPResponse.read()	# 读取整个url中的内容
+
+	# 获取头
+	HTTPResponse.getheader(name, default=None)
+	
+	# 读状态
+	HTTPResponse.status()
+	
+	# 关闭流
+	HTTPResponse.closed()
+	
+# example
+conn = http.client.HTTPSConnection("www.python.org")
+conn.request("GET", "/")
+r1 = conn.getresponse()
+print(r1.status, r1.reason)
+>>200 OK
+data1 = r1.read() 
+print(data1)
+>>b'<!doctype html>\n<!--[if lt IE 7]>   <html class="no-js ie6 lt-ie7 lt-ie8 lt-ie9">   <![endif]-->\n<!--[if IE 7]> .......
+
+
+
+
+							http.server
+# http服务端，它是socketserver.TCPServer的子类
+# 它主要有 http.server.HTTPServer 和 http.server.BaseHTTPRequestHandler 和 http.server.SimpleHTTPRequestHandler 和 http.server.CGIHTTPRequestHandler
+	
+	http.server.HTTPServer(server_address, RequestHandlerClass)	# RequestHandlerClass 参数必须是上面的三个RequestHandler其中一个
+	
+		# 创建https服务
+		def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler, port=8888):	
+			# BaseHTTPRequestHandler 可以自己实现一个类，继承BaseHTTPRequestHandler， 里面写自己的do_post 和do_get方法
+			server_address = ('', port)
+			httpd = server_class(server_address, handler_class)
+			httpd.serve_forever()  
+		
+	http.server.BaseHTTPRequestHandler(request, client_address, server)	# 处理http的request请求, 用户可以自己继承这个类，实现post、get方法
+		
+		# 类中含有的变量
+		client_address
+		server
+		close_connection
+		request_version			@ 'HTTP/1.0'
+		headers
+		
+		# 类中含有的函数
+		server_version
+		sys_version		@'Python/1.4'
+		protocol_version	@ 'HTTP/1.0' 
+		send_header			@ header
+		send_response		@ response
+		handle()		@do_*() methods
+		
+		
+	
+	
