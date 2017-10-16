@@ -1,0 +1,28 @@
+urllib专门处理url的库，下面包括 urllib.request  urllib.error  urllib.parse  urllib.robotparser
+
+	urllib.request	
+	
+	# 发送请求
+	urllib.request.urlopen(url, data=None, [timeout, ]*, cafile=None, capath=None, cadefault=False, context=None)
+
+		# GET
+		import urllib.request
+		with urllib.request.urlopen('http://www.python.org/') as f:	# URL可以接受字符串或者Request对象。带有data参数就是POST方法，否则就是GET
+			print(f.read(300).decode('utf-8'))
+		'''
+			<!doctype html>
+			<!--[if lt IE 7]>   <html class="no-js ie6 lt-ie7 lt-ie8 lt-ie9">   <![endif]-->
+			<!-
+		'''
+		
+		# POST
+		DATA = b'some data'
+		req = urllib.request.Request(url='http://localhost:8080', data=DATA, method='PUT')
+		with urllib.request.urlopen(req) as f:
+			print(f.read().decode('utf-8'))
+		print(f.status)
+		print(f.reason)
+		
+		
+		
+		
