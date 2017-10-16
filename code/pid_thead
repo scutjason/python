@@ -1,0 +1,100 @@
+				进程和线程
+
+# 创建子进程
+from multiprocessing import Process
+import os
+
+# 子进程要执行的代码
+def run_proc(name):
+    print('Run child process %s (%s)...' % (name, os.getpid()))
+
+if __name__=='__main__':
+    print('Parent process %s.' % os.getpid())
+    p = Process(target=run_proc, args=('test',))
+    print('Child process will start.')
+    p.start()		# start()方法启动子进程
+    p.join()		# join()方法可以等待子进程结束后再继续往下运行
+    print('Child process end.')
+	
+
+>>Parent process 928.
+>>Process will start.
+>>Run child process test (929)...
+>>Process end.
+
+# 进程池
+from multiprocessing import Pool
+
+def run_tast(name):
+	print('Parent process %s.' % os.getpid())
+	
+if __name__ == '__main__':
+    print('Parent process %s.' % os.getpid())
+    p = Pool(4)
+    for i in range(5):
+        p.apply_async(run_tast, args=(i,))	# 非阻塞方式，将tast放到线程池的任务列表中，异步方式等待work进程去执行任务
+    print('Waiting for all subprocesses done...')
+    p.close()	# 先调用close()， 进程池不再创建新的进程
+	p.join()	# wait进程池中的全部进程。必须对Pool先调用close()方法才能join。
+	print('All subprocesses done.')
+	
+# 进程间通信
+from multiprocessing import Queue
+
+def write(q):
+	for value in ['a', 'b', 'c']:
+		q.put(value)
+		
+def read(q):
+	while True:
+		q.get(True)
+		
+if __name__ == '__main__':	
+	q = Queue()
+	qw = Process(target=write, args=[q,])
+	qr = Process(target=read, args=[q,])
+	qw.start()
+	qr.start()
+	pw.join()
+	qr.join()
+	qr.terminate()	# 强行终止
+	
+	
+				多线程
+# 创建线程
+import threading
+import time
+
+def loop():
+	print('thread %s is running...' % threading.current_thread().name)
+	n=0
+	while n < 5:
+		n += 1
+		time.sleep(1)
+	print('thread %s ended.' % threading.current_thread().name)
+
+print('thread %s is running...' % threading.current_thread().name)
+t=threading.Thread(target=loop, name='LoopThead')	# 如果没有参数，可以不用args
+t.start()
+t.join()
+print('thread %s ended.' % threading.current_thread().name)
+
+# 线程锁
+lock = threading.Lock()
+
+balance=0
+def change_it(n):
+    # 先存后取，结果应该为0:
+    global balance
+    balance = balance + n
+    balance = balance - n
+	
+def run_thead(n):
+	for i in range(100000):
+		lock.acquire()	# 多个线程同时执行lock.acquire()时，只有一个线程能成功地获取锁, 原子锁
+		try:
+			change_id(n)
+		finally:
+			lock.release()
+		
+# 多线程实际上不能真正做到并发执行，因为有GIL锁的存在，不过可以用多进程实现并发，因为每个进程一个GIL锁
