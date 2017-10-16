@@ -1,0 +1,112 @@
+				collections
+# nametupule
+
+from collections import namedtuple
+point = namedtuple('Point', ['x', 'y'])		# ('名称', [属性list])
+p=point(1,2)
+p.x
+>>1
+p.y
+>>2
+
+
+# deque
+# 双向循环列表，效率更高
+from collections import deque
+q = deque(['a', 'b', 'c'])
+q.append('x')
+>>deque(['a', 'b', 'c', 'x'])
+q.appendleft('y')
+>>deque(['y', 'a', 'b', 'c', 'x'])
+q.pop()
+>>deque(['y', 'a', 'b', 'c'])
+q.popleft()
+>>deque(['a', 'b', 'c'])
+
+# Counter
+from collections import Counter
+c=Counter()
+for ch in 'hello Counter':
+	c[ch] += 1
+>>Counter({'o': 2, 'l': 2, 'e': 2, ' ': 1, 'n': 1, 't': 1, 'h': 1, 'r': 1, 'u': 1, 'C': 1})	# 返回一个dict
+
+# hashlib
+# md5算法 将任意长度的数据转成固定长度的字符串, 128 bit字节
+import hashlib
+md5 = hashlib.md5()
+md5.update('how to use md5 in python hashlib?'.encode('UTF-8'))
+>><md5 HASH object @ 0x7f1ab5011120>
+
+# SHA1算法 160 bit字节， 通常用一个40位的16进制字符串表示
+
+
+# with语句
+# 打开文件，不用关心close
+with open('test.txt', 'r') as f:
+	f.read()
+	
+# url
+# get 抓取url内容
+from urllib import request
+with request.urlopen('https://api.douban.com/v2/book/2129650') as f:
+	data = f.read()
+	print('status:', f.status, f.reason)
+	for k,v in f.getheaders():
+		print('%s: %s' % (k, v))
+	print('Data:', data.decode('utf-8'))
+	
+# 模拟浏览器发送get
+req = request.Request('http://www.douban.com/')
+req.add_header('User-Agent', 'Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25')
+with request.urlopen(req) as f:
+    print('Status:', f.status, f.reason)
+    for k, v in f.getheaders():
+        print('%s: %s' % (k, v))
+	print('Data:', f.read().decode('utf-8'))
+	
+# post
+# 模拟浏览器登陆weibo
+from urllib import request, parse
+
+print('Login to weibo.cn...')
+email = '11539@qq.com'
+passwd = 'xxxxx'
+login_data = parse.urlencode([
+    ('username', email),
+    ('password', passwd),
+    ('entry', 'mweibo'),
+    ('client_id', ''),
+    ('savestate', '1'),
+    ('ec', ''),
+    ('pagerefer', 'https://passport.weibo.cn/signin/welcome?entry=mweibo&r=http%3A%2F%2Fm.weibo.cn%2F')
+])
+
+req = request.Request('https://passport.weibo.cn/sso/login')
+req.add_header('Origin', 'https://passport.weibo.cn')
+req.add_header('User-Agent', 'Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25')
+req.add_header('Referer', 'https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fm.weibo.cn%2F')
+
+with request.urlopen(req, data=login_data.encode('utf-8')) as f:
+    print('Status:', f.status, f.reason)
+    for k, v in f.getheaders():
+        print('%s: %s' % (k, v))
+    print('Data:', f.read().decode('utf-8'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
