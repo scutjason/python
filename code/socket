@@ -1,0 +1,152 @@
+					
+# Python 提供了两个基本的 socket 模块。
+# socket:	提供了标准的 BSD Sockets API
+# SocketServer:		它提供了服务器中心类，可以简化网络服务器的开发
+
+									socket
+# tcp 基本
+import socket
+
+# 创建socket
+s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)	# 地址和端口号
+
+# 建立连接
+s.connect(('www.sina.com.cn', 80))
+
+# 接受数据
+buffer = []
+while True:
+	d = s.recv(1024)	# 一次最多接收指定的字节数 1024 ， 包括http头
+	if d:
+		buffer.append(d)
+	else:
+		break
+data=b''.join(buffer)
+
+# 关闭连接:
+s.close()
+
+
+# 服务端
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# 监听端口
+s.bind(('127.0.0.1', 9999))
+s.listen(5)	#　传入的参数指定等待连接的最大数量
+print('Waiting for connection...')
+
+# 接受连接请求
+while True:
+    # 接受一个新连接:
+    sock, addr = s.accept()
+    # 创建新线程来处理TCP连接:
+    t = threading.Thread(target=tcplink, args=(sock, addr))
+    t.start()
+
+# 处理请求程序
+def tcplink(sock, addr):
+    print('Accept new connection from %s:%s...' % addr)
+    sock.send(b'Welcome!')	# b表示以字节形式
+    while True:
+        data = sock.recv(1024)
+        time.sleep(1)
+        if not data or data.decode('utf-8') == 'exit':
+            break
+        sock.send(('Hello, %s!' % data.decode('utf-8')).encode('utf-8'))
+    sock.close()
+    print('Connection from %s:%s closed.' % addr)
+	
+# 客户端
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# 建立连接:
+s.connect(('127.0.0.1', 9999))
+# 接收欢迎消息:
+print(s.recv(1024).decode('utf-8'))
+for data in [b'Michael', b'Tracy', b'Sarah']:
+    # 发送数据:
+    s.send(data)
+    print(s.recv(1024).decode('utf-8'))
+s.send(b'exit')
+s.close()
+
+								socketserver
+# 服务类：监听、连接、创建等
++------------+
+| BaseServer |
++------------+
+      |
+      v
++-----------+        +------------------+
+| TCPServer |------->| UnixStreamServer |
++-----------+        +------------------+
+      |
+      v
++-----------+        +--------------------+
+| UDPServer |------->| UnixDatagramServer |
++-----------+        +--------------------+
+
+	# BaseServer 
+		BaseServer.fileno()	# 返回fd
+		BaseServer.handle_request()	# 处理单个请求
+		BaseServer.server_forever(poll_interval=0.5) # 处理请求，直到一个明确的shutdown()请求，轮训
+		BaseServer.handle_timeout() #超时处理
+	
+	
+# 处理类：发送、接收
++--------------------+
+| BaseRequestHandler |	父类
++--------------------+
+	  |
+      |-------------------------------------|
+      v										v
++----------------------+        +------------------------+
+| StreamRequestHandler |		| DatagramRequestHandler |
++----------------------+        +------------------------+
+
+	# BaseRequestHandler中的主要API接口
+	setup()
+		#　在handle()之前被调用，处理一些初始化相关的工作，设置超时，打开写和读文件
+	finish()
+		# 刷读写io的缓存，关闭读写文件
+	handle()
+		# 自己重写
+	# 编程套路就是： 当我们需要自己编写socketserver程序时，只需要合理选择StreamRequestHandler和DatagramRequestHandler之中的一个作为父类，
+	# （当然，使用BaseRequestHandler作为父类也可）， 然后自定义一个请求处理类，并在其中重写handle()方法即可。
+	# 举例：
+	# 服务端
+	import socketserver
+	class MyHander(socketserver.BaseRequestHandler):
+		'''
+			自己实现handle()， 收到客户端请求后，就会调用handle()处理
+		'''
+		def hander(self):
+			self.data = self.request.recv(1024).strip()
+			self.request.sendall(self.data.upper())	# 收到了就全部原样送回去
+	if __name__ == '__main__':
+		server = socketserver.TCPServer(('localhost', 9999), MyHander)	# 创建server
+		server.server_forever()	# 一直执行，直到ctrl-C
+		
+	# 客户端
+	import socket
+	import sys
+	 
+	HOST, PORT = "localhost", 9999
+	data = " ".join(sys.argv[1:])
+	 
+	# Create a socket (SOCK_STREAM means a TCP socket)
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	 
+	try:
+		# Connect to server and send data
+		sock.connect((HOST, PORT))
+		sock.sendall(bytes(data + "\n", "utf-8"))
+	 
+		# Receive data from the server and shut down
+		received = str(sock.recv(1024), "utf-8")
+	finally:
+		sock.close()
+	 
+	print("Sent:     {}".format(data))
+	print("Received: {}".format(received))
+	
+	# 你可以理解为客户端是connect 服务端，主体是socket; 服务端是定义handle()去处理客户端的请求，主体是sockerserver
