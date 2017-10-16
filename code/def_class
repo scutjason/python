@@ -1,0 +1,67 @@
+			函数
+# 定义函数
+def my_func():
+	print('this is my own func')
+	
+# 参数
+def pwer(x):
+	return x**2
+	
+# 递归
+def fact(n):
+	if n == 1:
+		return 1
+	return n * (n-1)
+
+fact(5)
+>>120
+# 其实用reduce感觉也一样
+
+
+			修改搜索路径
+import sys
+sys.path.append('/Users/michael/my_py_scripts')
+
+			类
+# 创建类
+class Student(obj):
+	pass
+
+# 定义 __init__函数
+	__init__(self, name, score, age):
+		self.name=name
+		self.score=score
+		self.__age = age			# _age是私有变量，不能直接通过对象访问, 两个下划线
+		# __xxx__ 和 _xxx 这两个变量是可以通过对象直接访问的
+		
+# 创建类实例
+bart = Student('xiaoming', 98, 18)
+
+
+# 类的继承
+class Animal(obj):
+	def run(self):
+		print("Animal run")
+	
+class Dog(Animal):	# 集成Animal
+	def run(self):
+		print('Dog run')	# 替代Animal中的run函数
+
+			序列化
+# 存到文件
+import pickle
+d=dict(name='bob', age=20, score=88)
+f=open('dump.txt', 'wb')
+pickle.dumps(f, d)
+
+# 输出到对象
+f=open('dump.txt', 'rb')
+d=pickle.load(f)
+f.close()
+>>{'age': 20, 'score': 88, 'name': 'Bob'}
+
+
+
+
+
+
