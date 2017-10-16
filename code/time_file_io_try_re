@@ -1,0 +1,173 @@
+					time
+import time
+
+# 获取秒数
+ticks = time.time()
+>>1507985182.0991147
+
+# 获取当前时间
+from datetime import datetime
+dt=datetime.now()
+>>2017-10-15 11:44:38.673971
+
+# 转成时间戳
+dt.timestamp()
+>>1508068052.338676
+
+# 转出当前时间
+datetime.fromtimestamp(1508068052.33)
+>>2017-10-15 11:47:32.338675
+
+# datetime转换为str
+dt.strftime('%a, %b %d %H:%M')
+>>Sun, Oct 15 11:53
+
+
+					列表生成式
+res=[]
+for m in 'ABC':
+	for n in 'XYZ':
+		res.append(m + n)
+		
+用一条语句搞定
+rest = [m + n for m in 'ABC' for n in 'XYZ']
+>>['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']
+
+再比如dict变list
+d = {'Java':"99" , 'C':"99" , 'C++':"99" } 
+[k +'='+v for k,v in d.items() ]
+>>['C++=99', 'Java=99', 'C=99']
+
+
+# 把要生成的语句放到前面 m+n
+# 把for循环包括嵌套的、if表达式的放到后面
+
+					文件IO
+# 打开文件
+fo = open("foo.txt", "r+")
+
+# 写文件
+fo.write("hello file")
+
+# 读文件
+fo.read(10)
+>>hello file
+
+# 刷新缓存
+fo.flush()
+
+# 读一行
+fo.readlines()	# 一次性将文件按照\n全部读取到内存中，形式为list，用for遍历
+
+# 文件定位
+fo.seek(0,0)	# 重定向到文件开头， 第一个0是offset
+fo.seek(0,1)	# 重定向到当前位置
+
+# 关闭文件
+fo.close()
+
+# 文件改名
+import os
+os.rename('foo.txt', 'foo2.txt')	# 改成foo2.txt
+
+# 文件删除
+os.remove('foo2.txt')
+
+# 创建目录
+os.mkdir('dir')	# 创建dir的目录
+
+# 改变目录
+os.chdir('/home') # 切换到/home目录
+
+# 获取当前目录
+os.getcwd()
+
+# 删除目录
+os.rmdir('dir')
+	
+					异常
+# 处理异常
+try:
+	f = open('foo.txt', 'rb')
+except IOError:
+	print('can not open')
+finally:
+	f.close()
+	
+# 跑出异常
+reise()
+
+					内置函数
+abs()
+sorted(iterable, key, reverse)	# 排序  key 是排序函数， reverse = True 降序 ， reverse = False 升序（默认）
+sum(obj)	# obj 元素相加
+filter(function, iterable)	
+	# function 可以用lambda 代替
+	list(filter(lambda x:x%2==0, range(1,100)))
+	>>[2, 4, 6, 8]
+map(function, iterable)	# 跟filter差不多，不过
+	list(map(lambda x:x**2, range(4)))
+	>>[0, 1, 4, 9]
+from functools import reduce
+reduce(function, iterable)	# 输出是一个值， 而map和filter都是返回新的列表，不过要 
+	redece(lambda x,y:x+y, range(10))
+	>>45
+	l=[1,3,5,7,9]
+	reduce(lambda x, y: x*10+y, l)	# 将[1,3,5,7,9]变成13579
+	>>13579
+zip(obj)	# 将obj中的每个元素合并成元祖，然后元祖拼成列表返回
+	zip([1,2,3], [4,5,6])
+	>>(1, 4) (2, 5) (3, 6)
+reversed(obj)	# obj 是str list tuple range
+	reversed('hello reversed')
+	>>d e s r e v e r   o l l e h
+	list(reversed([1,2,3]))
+	>>[3, 2, 1]
+
+					正则表达式
+# 规则
+\d				匹配一个数字
+\w				匹配一个字母或数字
+.				匹配任意一个字符
+*				匹配任意个字符
++				匹配至少一个字符
+？				匹配0个或者一个字符
+{n}				匹配n个字符
+{n,m}			匹配n-m个字符
+\s				匹配一个空字符， \n \t 空格
+\				表示转义		
+^				表示行的开头 	^\b		
+$				表示结尾		$\b
+
+# 比如
+\d{3}\s+\d{3,8} 
+
+\d{3}表示匹配3个数字，例如'010'；
+\s可以匹配一个空格（也包括Tab等空白符），所以\s+表示至少有一个空格，例如匹配' '，' '等；
+\d{3,8}表示3-8个数字，例如'1234567'。
+
+
+# re模块
+import re
+re.match(r''^\d{3}\-\d{3,8}$', '010-12345')	# 匹配三个数字开头的，失败返回None
+			
+# 切分split
+re.split(r'[\s\,]+', 'a,b, c  d')
+>>['a', 'b', 'c', 'd']
+
+# 分组()
+m=re.match(r'^(\d{3})-(\d{3,8})$', '010-12345')
+m.group(0)
+>>'010-12345'
+m.group(1)
+>>'010'
+m.group(2)
+>>'12345'
+# 也可以用groups(), 返回tuple
+re.match(r'^(\d{3})-(\d{3,8})$', '010-12345').groups()
+>>('010', '12345')
+
+# 编译
+c=re.compile(r'^(\d{3})-(\d{3,8})$')	# 先编译
+c.match('010-12345').groups()			# 再匹配
+>>('010', '12345')
