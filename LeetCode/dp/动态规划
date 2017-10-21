@@ -14,4 +14,32 @@
   所以一般采用递归算法来解决，某个阶段某个状态下的最优值最短路径，最长公共子序列，最大价值
   
 4、DP经典例题
-  
+    (1).Triangle
+    Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+    For example, given the following triangle
+    [
+         [2],
+        [3,4],
+       [6,5,7],
+      [4,1,8,3]
+    ]
+    The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+    Note:
+    Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in the triangle.  
+    
+    设状态为 f (i; j )，表示从从位置 (i; j ) 出发，路径的最小和，则状态转移方程为
+    f(i,j)=min{f(i+1,j),f(i+1,j+1)}+(i,j)
+    class Solution(object):
+        def minimumTotal(self, triangle):
+            """
+            :type triangle: List[List[int]]
+            :rtype: int
+            """
+            n = len(triangle)
+            dp = triangle[n-1]
+            for i in range(n-2,-1,-1): # 倒着写法，这个-1只是表示从n-2位置开始要循环的次数，n-2 - (-1)，循环次数为n-1次
+                for j in range(i+1):
+                    dp[j] = min( dp[j], dp[j+1] ) + triangle[i][j]
+            return dp[0]
+
+
