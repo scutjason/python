@@ -9,7 +9,7 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
 
 这道题目的关键就在于连续的子数字序列相加，怎么样去保存这个前面的和呢？用count
 然后对于每数字像这种求子序列或者子串的时候，我们通常都是借用动态规划的方法，也就是，前面的计算对后面的计算是有用的。
-我们用count来保存前面出现的和（值等于1），这样当前和减去目标K，如果等于前面出现过得和，那么就认为找到一个了
+我们用count来保存前面出现的和（count[su] += 1），这样当前和减去目标K，如果等于前面出现过得和，那么就认为找到一个了
 
 class Solution(object):
     def subarraySum(self, nums, k):
