@@ -36,3 +36,38 @@ class Solution(object):
             profit = max((prices[i] - p), profit)
 
         return profit
+
+
+再看一道题，
+
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+Design an algorithm to find the maximum profit. You may complete as many transactions as you like
+(ie, buy one and sell one share of the stock multiple times). However, you may not engage in multiple transactions at the same time 
+(ie, you must sell the stock before you buy again).
+
+==========
+只要有收益就把收益加起来，不是更简单。动态规划法
+[1,3,5,7] 
+按照第一种解法：7-1=6
+按照第二种解法：3-1 + 5-3 + 7-5 = 7-1 = 6
+本质来说是一样的，不过遇到[1,3,2,7] 就不一样了，就把所有能收益的点都加起来肯定跟大。因为折了一下
+收益线长度更长了，有重叠的，解法也简单，只要后一个数比前一个数大，就收益相加，小就不动
+
+==========
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        if not prices:
+            return 0
+        
+        p = prices[0]
+        profit = 0
+        
+        for i in range(len(prices)-1):
+            if prices[i+1] > prices[i]:
+                profit +=  prices[i+1] - prices[i]
+        return profit
