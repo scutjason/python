@@ -1,0 +1,31 @@
+Given an array and a value, remove all instances of that value in place and return the new length.
+
+Do not allocate extra space for another array, you must do this in place with constant memory.
+
+The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+
+Example:
+Given input array nums = [3,2,2,3], val = 3
+
+Your function should return length = 2, with the first two elements of nums being 2.
+
+
+========
+解题思路：因为没有排序，用一个tail保存要填充的位置，索引i去跟val做比较，不相等就替换tail位置的值，相等就不动，等着下面的值来被替换
+========
+
+class Solution(object):
+    def removeElement(self, nums, val):
+        """
+        :type nums: List[int]
+        :type val: int
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        tail =0
+        for i in range(len(nums)):
+            if nums[i] != val:
+                nums[tail] = nums[i]
+                tail += 1
+        return tail
