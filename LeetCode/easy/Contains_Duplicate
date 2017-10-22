@@ -20,3 +20,29 @@ class Solution(object):
             if i > 1:
                 return True
         return False
+
+
+看另一个题
+Given an array of integers and an integer k, find out whether there are two distinct 
+indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k.
+
+====
+啥意思?  寻找是否存在两个相同的元素且他们之间距离小于等于k
+====
+
+class Solution(object):
+    def containsNearbyDuplicate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        if not nums:
+            return False
+        dict={}
+        for i in range(len(nums)):
+            v = nums[i]
+            if v in dict and i - dict[v] <= k:
+                return True
+            dict[v] = i
+        return False
