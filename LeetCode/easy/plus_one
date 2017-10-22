@@ -1,0 +1,39 @@
+
+Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
+
+You may assume the integer do not contain any leading zero, except the number 0 itself.
+
+The digits are stored such that the most significant digit is at the head of the list.
+
+===
+  题目的意思是 +1, 每一位都用list表示
+  这道题目最主要考察list的倒叙输出，
+  
+  1、range（len（a））[::-1]  # 对于索引而言 [4, 3, 2, 1, 0]
+  2、a=[1,2,3,4,5]  a[4:0:-1]  # 对于元素而言， 4表示start位置，0表示结束位置，-1表示从右往左数 [5, 4, 3, 2]
+===
+
+
+class Solution(object):
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+       
+        if digits[-1] < 9:
+            digits[-1] +=1
+            return digits
+
+        flag=0
+        for i in range(len(digits))[::-1]:
+            if digits[i] == 9:
+                flag=1
+                digits[i] = 0
+            else:
+                digits[i] += 1
+                flag=0
+                return digits
+        if flag == 1:
+            digits.insert(0,1)
+        return digits
