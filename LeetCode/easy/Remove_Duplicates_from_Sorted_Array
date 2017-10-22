@@ -1,0 +1,31 @@
+Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+
+Do not allocate extra space for another array, you must do this in place with constant memory.
+
+For example,
+Given input array nums = [1,1,2],
+
+Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively.
+It doesn't matter what you leave beyond the new length.
+
+
+=============
+题目比较简单：从排序数组中去除重复数字，并且返回新的长度，注意不能分配新的空间， [1,1,2] 变成[1,2,1] new list长度是2
+            双指针搞定，tail 和 i
+=============
+
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        
+        tail = 0
+        for i in range(len(nums)):
+            if nums[tail] != nums[i]:
+                tail +=1
+                nums[tail] = nums[i]
+        return tail+1
