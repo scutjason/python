@@ -1,0 +1,6 @@
+1、主要的分词算法和工具
+
+CRF：条件概率下的最大熵。主要用于分词
+
+
+http://blog.csdn.net/wauwa/article/details/7865526
